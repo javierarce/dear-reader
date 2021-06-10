@@ -19,6 +19,7 @@
     "node-fetch": "^2.6.1",
     "nodemailer": "^6.6.1",
     "nodepub": "^3.0.2",
+    "openweather-apis": "^4.4.1",
     "sanitize-html": "^2.4.0"
   }
 }
