@@ -55,6 +55,11 @@ app.get('/login', (request, response) => {
   response.sendFile(__dirname + '/views/login.html')
 })
 
+app.get('/generate', async (request, response) => {
+  let result = await Reader.generate().catch(e => response.json)
+  response.json({ result })
+})
+
 app.get('/logout', (request, response) => {
   request.session.destroy()
 })
@@ -104,8 +109,6 @@ if (process.env.MODE == 'DEVELOPMENT') {
     spawn('./concat')
   })
 }
-
-Reader.start()
 
 http.listen(process.env.PORT, () => {
   console.log('Your app is listening on port ' + process.env.PORT)
