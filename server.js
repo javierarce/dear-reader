@@ -59,6 +59,16 @@ app.get('/login', (request, response) => {
   response.sendFile(__dirname + '/views/login.html')
 })
 
+app.get('/api/unread_entries', async (request, response) => {
+  let result = await Reader.getUnreadEntries().catch(e => response.json)
+  response.json({ result })
+})
+
+app.get('/api/entries', async (request, response) => {
+  let result = await Reader.getArticles().catch(e => response.json)
+  response.json({ result })
+})
+
 app.get('/generate', async (request, response) => {
   let result = await Reader.generate().catch(e => response.json)
   response.json({ result })
