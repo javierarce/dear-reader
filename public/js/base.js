@@ -27,6 +27,20 @@ const getElement = (selector) => {
   return document.querySelector(selector)
 }
 
+const createElement = ({ className, html, text, type = 'div' }) => {
+  let $el = document.createElement(type)
+
+  if (html) {
+    $el.innerHTML = html
+  } else if (text) {
+    $el.innerText = text
+  }
+
+  $el.classList.add(className)
+
+  return $el
+}
+
 const get = (URL) => {
   const headers = { 'Content-Type': 'application/json' }
   const method = 'GET'

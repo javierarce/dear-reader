@@ -11,18 +11,28 @@ class Reader {
   }
 
   renderEntry (entry) {
-    let $element = document.createElement('div')
-    $element.classList.add('Entry')
-    $element.innerHTML = entry.title
+    let $element = createElement({ className: 'Entry' })
+
+    let $title = createElement({ className: 'Entry__title', html: entry.title })
+    let $summary = createElement({ className: 'Entry__summary', html: entry.summary })
+    let $date = createElement({ className: 'Entry__date', html: entry.published })
+
+    $element.appendChild($title)
+    $element.appendChild($published)
+    $element.appendChild($summary)
+
     this.$element.appendChild($element)
   }
 
-  async render () {
-    this.$element = document.createElement('div')
-    this.$element.classList.add(this.className)
-
+  async renderEntries () {
     let entries = await this.getEntries()
     entries.forEach(this.renderEntry.bind(this))
+  }
+
+  render () {
+    this.$element = createElement({ className: this.className })
+
+    this.renderEntries()
 
     document.body.appendChild(this.$element)
   }
