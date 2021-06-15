@@ -13,7 +13,7 @@ class Reader {
   renderEntry (entry) {
     let $element = document.createElement('div')
     $element.classList.add('Entry')
-    $element.innerHTML = entry.summary
+    $element.innerHTML = entry.title
     this.$element.appendChild($element)
   }
 
