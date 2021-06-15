@@ -55,6 +55,11 @@ app.get('/login', (request, response) => {
   response.sendFile(__dirname + '/views/login.html')
 })
 
+app.get('/api/weather', async (request, response) => {
+  let result = await Reader.getWeather().catch(e => response.json)
+  response.json(result)
+})
+
 app.get('/api/unread_entries', async (request, response) => {
   let result = await Reader.getUnreadEntries().catch(e => response.json)
   response.json(result)
@@ -65,45 +70,13 @@ app.get('/api/entries', async (request, response) => {
   response.json(result)
 })
 
-app.get('/generate', async (request, response) => {
+app.get('/api/generate', async (request, response) => {
   let result = await Reader.generate().catch(e => response.json)
   response.json({ result })
 })
 
 app.get('/logout', (request, response) => {
   request.session.destroy()
-})
-
-app.get('/api/all', (request, response) => {
-  DB.getAll().then((result) => {
-    response.json(result)
-  }).catch((error) => {
-    response.json(error)
-  })
-})
-
-app.delete('/api/text/:id', auth, (request, response) => {
-  DB.remove(request.params.id).then((result) => {
-    response.json(result)
-  }).catch((error) => {
-    response.json({ error: true, message: error })
-  })
-})
-
-app.post('/api/repeat', auth, (request, response) => {
-  DB.repeat(request.body).then((result) => {
-    response.json(result)
-  }).catch((error) => {
-    response.json(error)
-  })
-})
-
-app.post('/api/post', auth, (request, response) => {
-  DB.save(request.body).then((result) => {
-    response.json(result)
-  }).catch((error) => {
-    response.json(error)
-  })
 })
 
 app.post('/login', (request, response) => {

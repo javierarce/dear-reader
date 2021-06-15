@@ -1,5 +1,7 @@
 const ENDPOINTS = {
-  entries: '/api/entries'
+  entries: '/api/entries',
+  generate: '/api/generate',
+  weather: '/api/weather'
 }
 
 const killEvent = (e) => {
@@ -26,8 +28,11 @@ const getElements = (selector) => {
 const getElement = (selector) => {
   return document.querySelector(selector)
 }
+const isEmpty = (obj) => {
+  return Object.keys(obj).length === 0;
+}
 
-const createElement = ({ className, html, text, type = 'div' }) => {
+const createElement = ({ className, html, text, type = 'div', ...options }) => {
   let $el = document.createElement(type)
 
   if (html) {
@@ -37,6 +42,12 @@ const createElement = ({ className, html, text, type = 'div' }) => {
   }
 
   $el.classList.add(className)
+
+  if (!isEmpty(options)) {
+    Object.keys(options).forEach((key) => {
+      $el[key] = options[key]
+    })
+  }
 
   return $el
 }

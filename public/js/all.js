@@ -1,5 +1,7 @@
 const ENDPOINTS = {
-  entries: '/api/entries'
+  entries: '/api/entries',
+  generate: '/api/generate',
+  weather: '/api/weather'
 }
 
 const killEvent = (e) => {
@@ -26,8 +28,11 @@ const getElements = (selector) => {
 const getElement = (selector) => {
   return document.querySelector(selector)
 }
+const isEmpty = (obj) => {
+  return Object.keys(obj).length === 0;
+}
 
-const createElement = ({ className, html, text, type = 'div' }) => {
+const createElement = ({ className, html, text, type = 'div', ...options }) => {
   let $el = document.createElement(type)
 
   if (html) {
@@ -37,6 +42,12 @@ const createElement = ({ className, html, text, type = 'div' }) => {
   }
 
   $el.classList.add(className)
+
+  if (!isEmpty(options)) {
+    Object.keys(options).forEach((key) => {
+      $el[key] = options[key]
+    })
+  }
 
   return $el
 }
@@ -92,6 +103,12 @@ class Reader {
     this.render()
   }
 
+  getWeather () {
+    return get(ENDPOINTS.weather).then((response) => {
+      return response.json()
+    })
+  }
+
   getEntries () {
     return get(ENDPOINTS.entries).then((response) => {
       return response.json()
@@ -112,20 +129,52 @@ class Reader {
     this.$element.appendChild($element)
   }
 
-  async renderEntries () {
+  renderEntries () {
+    return new Promise(async (resolve, reject) => {
+
+      this.spinner.show()
+
+      let entries = await this.getEntries()
+      entries.forEach(this.renderEntry.bind(this))
+
+      this.spinner.hide()
+      resolve(true)
+    })
+  }
+
+  renderGenerateButton () {
+    this.$generateButton = createElement({ 
+      type: 'button',
+      className: 'Button',
+      text: 'Generate',
+      onclick: this.generateBook.bind(this)
+    })
+
+    this.$element.appendChild(this.$generateButton)
+  }
+
+  generateBook () {
     this.spinner.show()
-
-    let entries = await this.getEntries()
-    entries.forEach(this.renderEntry.bind(this))
-
-    this.spinner.hide()
+    return get(ENDPOINTS.generate).then((response) => {
+      response.json().then((result) => {
+        console.log(result)
+        this.spinner.hide()
+      })
+    })
   }
 
   render () {
     this.$element = createElement({ className: this.className })
 
     this.$element.appendChild(this.spinner.$element)
-    this.renderEntries()
+
+    this.renderEntries().then(() => {
+      this.renderGenerateButton()
+    })
+
+    this.getWeather().then((response) => {
+      console.log(response)
+    })
 
     document.body.appendChild(this.$element)
   }

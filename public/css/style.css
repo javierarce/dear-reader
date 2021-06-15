@@ -65,16 +65,20 @@ code {
 }
 
 
-.Spinner.is-visible {
-  display: block;
-}
 .Spinner {
+  position: absolute;
+  top: 1em;
+  right: 1em;
   display: none;
   border-top: 2px solid #ddd;
   border-right: 2px solid #ddd;
   border-bottom: 2px solid #ddd;
   border-left: 2px solid #0090d7;
   animation: spinner 0.8s infinite linear;
+}
+
+.Spinner.is-visible {
+  display: block;
 }
 
 .Spinner, .Spinner:after {
@@ -91,7 +95,6 @@ code {
     transform: rotate(360deg);
   }
 }
-
 
 .Entry {
 }
