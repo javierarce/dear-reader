@@ -1,6 +1,9 @@
 class Reader {
   constructor () {
     this.className = this.constructor.name
+
+    this.spinner = new Spinner()
+
     this.render()
   }
 
@@ -25,13 +28,18 @@ class Reader {
   }
 
   async renderEntries () {
+    this.spinner.show()
+
     let entries = await this.getEntries()
     entries.forEach(this.renderEntry.bind(this))
+
+    this.spinner.hide()
   }
 
   render () {
     this.$element = createElement({ className: this.className })
 
+    this.$element.appendChild(this.spinner.$element)
     this.renderEntries()
 
     document.body.appendChild(this.$element)

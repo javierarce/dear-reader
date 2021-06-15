@@ -3,9 +3,14 @@
   <head>
     <meta charset="UTF-8">
     <title>Reader</title>
+    <% if (isDevelopment) { -%>
     <script src="js/base.js" charset="utf-8"></script>
+    <script src="js/Spinner.js" charset="utf-8"></script>
     <script src="js/Reader.js" charset="utf-8"></script>
     <script src="js/client.js" charset="utf-8"></script>
+    <% } else { -%>
+    <script src="/js/dist/all.js"></script>
+    <% } -%>
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body></body>
