@@ -115,8 +115,10 @@ app.post('/login', (request, response) => {
 
 if (process.env.MODE == 'DEVELOPMENT') {
   fs.watch('./public/js/', (eventType, filename) => {
-    console.log(`${eventType}: ${filename}`)
-    spawn('./concat')
+    if (filename !== 'all.js') {
+      console.log(`${eventType}: ${filename}`)
+      spawn('./concat')
+    }
   })
 }
 

@@ -3,7 +3,6 @@ class Reader {
     this.className = this.constructor.name
 
     this.spinner = new Spinner()
-
     this.render()
   }
 
