@@ -18,7 +18,7 @@ class Reader {
     let $date = createElement({ className: 'Entry__date', html: entry.published })
 
     $element.appendChild($title)
-    $element.appendChild($published)
+    $element.appendChild($date)
     $element.appendChild($summary)
 
     this.$element.appendChild($element)
