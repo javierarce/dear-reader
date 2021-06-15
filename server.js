@@ -61,12 +61,12 @@ app.get('/login', (request, response) => {
 
 app.get('/api/unread_entries', async (request, response) => {
   let result = await Reader.getUnreadEntries().catch(e => response.json)
-  response.json({ result })
+  response.json(result)
 })
 
 app.get('/api/entries', async (request, response) => {
   let result = await Reader.getArticles().catch(e => response.json)
-  response.json({ result })
+  response.json(result)
 })
 
 app.get('/generate', async (request, response) => {
