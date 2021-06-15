@@ -4,7 +4,7 @@ require('dotenv').config()
 
 const { spawn } = require('child_process')
 const fs = require('fs')
-const Reader = require('./lib/reader')
+const Reader = require('./lib/Reader')
 
 const USER = process.env.USERNAME
 const PASSWORD = process.env.PASSWORD
