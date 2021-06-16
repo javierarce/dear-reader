@@ -15,7 +15,7 @@ html, body {
 
 body {
   font-size: 1.4em;
-  line-height: 135%;
+  line-height: 145%;
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -60,7 +60,7 @@ code {
 }
 
 .Entry {
-  margin: 0 0 1em;
+  margin: 0 0 2em;
   font-size: 1em;
 }
 
@@ -68,6 +68,7 @@ code {
   display: block;
   font-weight: bold;
   font-size: 1.2em;
+  line-height: 145%;
   margin: 0 0 1em;
   user-select: none;
 }
