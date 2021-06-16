@@ -21,12 +21,16 @@ class Reader {
   renderEntry (entry) {
     let $element = createElement({ className: 'Entry' })
 
-    let $title = createElement({ className: 'Entry__title', html: entry.title })
-    let $summary = createElement({ className: 'Entry__summary', html: entry.summary })
-    let $date = createElement({ className: 'Entry__date', html: entry.published })
+    let author = entry.author ? toTitleCase(entry.author) : 'Unknown'
+    let title = `${entry.title } by ${author}`
+    let $title = createElement({ className: 'Entry__title', html: title })
+    let date = timeSince(new Date(entry.published))
 
-    $element.appendChild($title)
+    let $summary = createElement({ className: 'Entry__summary', html: entry.summary })
+    let $date = createElement({ className: 'Entry__date', html: date })
+
     $element.appendChild($date)
+    $element.appendChild($title)
     $element.appendChild($summary)
 
     this.$element.appendChild($element)

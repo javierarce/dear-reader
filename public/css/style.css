@@ -1,16 +1,11 @@
 :root {
-  --black: #000000;
+  --black: #111;
   --blue: #2477BE;
   --gray: #F4F4F4;
   --green: #23D5AB;
   --red: #F44336;
-  --shadow: 0,0,0;
   --white: #FFFFFF;
   --yellow: #FFEB3B;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 html, body {
@@ -19,16 +14,17 @@ html, body {
 }
 
 body {
-  font-size: 1.1em;
+  font-size: 1.4em;
   line-height: 135%;
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  color: var(--black);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   margin: 0;
   padding: 1em;
+  background: var(--black);
+  color: var(--white);
 }
 
 
@@ -57,22 +53,39 @@ code {
 }
 
 .Reader {
-  width: 80%;
+  padding: 3em 3em 0 3em;
+  width: 800px;
+  margin: auto;
+  transition: padding 200ms ease-in-out;
 }
 
 .Entry {
   margin: 0 0 1em;
+  font-size: 1em;
 }
 
+.Entry__title {
+  display: block;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 0 0 1em;
+  user-select: none;
+}
+
+.Entry__date {
+  opacity: 0.5;
+  font-size: 0.8em;
+  user-select: none;
+}
 
 .Spinner {
   position: absolute;
   top: 1em;
   right: 1em;
   display: none;
-  border-top: 2px solid #ddd;
-  border-right: 2px solid #ddd;
-  border-bottom: 2px solid #ddd;
+  border-top: 2px solid var(--white);
+  border-right: 2px solid var(--white);
+  border-bottom: 2px solid var(--white);
   border-left: 2px solid #0090d7;
   animation: spinner 0.8s infinite linear;
 }

@@ -68,6 +68,63 @@ const post = (URL, content) => {
 
   return fetch(URL, options)
 }
+
+const toTitleCase = (str) => {
+  return str.replace(
+    /\w\S*/g,
+    function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    }
+  )
+}
+
+const timeSince  = (date) => {
+  let seconds = Math.floor((new Date() - date) / 1000)
+
+  let interval = seconds / 31536000
+
+  if (interval > 1) {
+    let amount = Math.floor(interval)
+    let unit = amount === 1 ? 'year' : 'years'
+    return `${amount} ${unit} ago`
+  }
+
+  interval = seconds / 2592000
+
+  if (interval > 1) {
+    let amount = Math.floor(interval)
+    let unit = amount === 1 ? 'month' : 'months'
+    return `${amount} ${unit} ago`
+  }
+
+  interval = seconds / 86400
+
+  if (interval > 1) {
+    let amount = Math.floor(interval)
+    let unit = amount === 1 ? 'day' : 'days'
+    return `${amount} ${unit} ago`
+  }
+
+  interval = seconds / 3600
+
+  if (interval > 1) {
+    let amount = Math.floor(interval)
+    let unit = amount === 1 ? 'hour' : 'hours'
+    return `${amount} ${unit} ago`
+  }
+
+  interval = seconds / 60
+
+  if (interval > 1) {
+    let amount = Math.floor(interval)
+    let unit = amount === 1 ? 'minute' : 'minutes'
+    return `${amount} ${unit} ago`
+  }
+
+  let amount = Math.floor(seconds)
+  let unit = amount === 1 ? 'second' : 'seconds'
+  return `${amount} ${unit} ago`
+}
 class Spinner {
   constructor () {
     this.className = this.constructor.name
@@ -118,12 +175,16 @@ class Reader {
   renderEntry (entry) {
     let $element = createElement({ className: 'Entry' })
 
-    let $title = createElement({ className: 'Entry__title', html: entry.title })
-    let $summary = createElement({ className: 'Entry__summary', html: entry.summary })
-    let $date = createElement({ className: 'Entry__date', html: entry.published })
+    let author = entry.author ? toTitleCase(entry.author) : 'Unknown'
+    let title = `${entry.title } by ${author}`
+    let $title = createElement({ className: 'Entry__title', html: title })
+    let date = timeSince(new Date(entry.published))
 
-    $element.appendChild($title)
+    let $summary = createElement({ className: 'Entry__summary', html: entry.summary })
+    let $date = createElement({ className: 'Entry__date', html: date })
+
     $element.appendChild($date)
+    $element.appendChild($title)
     $element.appendChild($summary)
 
     this.$element.appendChild($element)
