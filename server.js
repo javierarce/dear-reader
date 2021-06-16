@@ -60,13 +60,18 @@ app.get('/api/weather', async (request, response) => {
   response.json(result)
 })
 
+app.get('/api/authors', async (request, response) => {
+  let result = await Reader.getAuthors().catch(e => response.json)
+  response.json(result)
+})
+
 app.get('/api/unread_entries', async (request, response) => {
   let result = await Reader.getUnreadEntries().catch(e => response.json)
   response.json(result)
 })
 
 app.get('/api/entries', async (request, response) => {
-  let result = await Reader.getArticles().catch(e => response.json)
+  let result = await Reader.getEntries().catch(e => response.json)
   response.json(result)
 })
 

@@ -1,5 +1,6 @@
 const ENDPOINTS = {
   entries: '/api/entries',
+  authors: '/api/authors',
   generate: '/api/generate',
   weather: '/api/weather'
 }

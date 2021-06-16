@@ -12,6 +12,12 @@ class Reader {
     })
   }
 
+  getAuthors () {
+    return get(ENDPOINTS.authors).then((response) => {
+      return response.json()
+    })
+  }
+
   getEntries () {
     return get(ENDPOINTS.entries).then((response) => {
       return response.json()
@@ -45,6 +51,23 @@ class Reader {
       entries.forEach(this.renderEntry.bind(this))
 
       this.spinner.hide()
+
+      resolve(true)
+    })
+  }
+
+  renderAuthors () {
+    return new Promise(async (resolve, reject) => {
+
+      this.spinner.show()
+      let authors = await this.getAuthors()
+      this.spinner.hide()
+
+      let names = authors.map(author => toTitleCase(author)).join(', ')
+      let html = `The next delivery is scheduled to be sent on XXX and will contain texts from ${names}.`
+      let $element = createElement({ className: 'Info' , html })
+      this.$element.appendChild($element)
+
       resolve(true)
     })
   }
@@ -75,7 +98,7 @@ class Reader {
 
     this.$element.appendChild(this.spinner.$element)
 
-    this.renderEntries().then(() => {
+    this.renderAuthors().then(() => {
       this.renderGenerateButton()
     })
 
