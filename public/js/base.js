@@ -1,3 +1,7 @@
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December']
+
+const DAYSOFWEEK = ['S','M','T','W','TH','F','SA']
+
 const ENDPOINTS = {
   entries: '/api/entries',
   authors: '/api/authors',

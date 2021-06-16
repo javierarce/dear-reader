@@ -56,6 +56,14 @@ class Reader {
     })
   }
 
+  getNextSaturday () {
+    let dayOfTheWeek = 6
+    let date = new Date()
+
+    date.setDate(date.getDate() + (7 + dayOfTheWeek - date.getDay()) % 7)
+    return `Saturday, ${MONTHS[date.getMonth()]} ${date.getDate()}`
+  }
+
   renderAuthors () {
     return new Promise(async (resolve, reject) => {
 
@@ -63,8 +71,9 @@ class Reader {
       let authors = await this.getAuthors()
       this.spinner.hide()
 
+      let date = this.getNextSaturday()
       let names = authors.map(author => toTitleCase(author)).join(', ')
-      let html = `The next delivery is scheduled to be sent on XXX and will contain texts from ${names}.`
+      let html = `The next delivery is scheduled to be sent on ${date} with a selection of articles from ${names}.`
       let $element = createElement({ className: 'Info' , html })
       this.$element.appendChild($element)
 

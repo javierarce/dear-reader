@@ -6,6 +6,8 @@
   --red: #F44336;
   --white: #FFFFFF;
   --yellow: #FFEB3B;
+  --background: #fef6f0;
+  --text: hsl(26deg 42% 26%);
 }
 
 html, body {
@@ -23,8 +25,8 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   margin: 0;
   padding: 1em;
-  background: var(--black);
-  color: var(--white);
+  color: var(--text);
+  background: var(--background);
 }
 
 
@@ -123,15 +125,15 @@ code {
   width: 800px;
   margin: 0 0 2em;
   padding: 1em;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 2px;
+  border: 1px solid rgba(94, 63, 38, 0.4);
+  border-radius: 4px;
 }
 
 button {
   position: relative;
   padding: 0.8em;
-  border: 1px solid #ccc;
-  font-size: 1em;
+  border: 1px solid rgba(94, 63, 38, 0.4);
+  font-size: 0.8em;
   outline: none;
   cursor: pointer;
   -webkit-appearance: none;
@@ -141,7 +143,8 @@ button {
   justify-content: center;
   border-radius: 4px;
   user-select: none;
-  background: #fafafa;
+  color: var(--white);
+  background: var(--black);
   transition: background 100ms ease-in-out, opacity 100ms ease-in-out, color 100ms ease-in-out;
 }
 
