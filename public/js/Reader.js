@@ -1,7 +1,6 @@
 class Reader {
   constructor () {
     this.className = this.constructor.name
-
     this.spinner = new Spinner()
     this.render()
   }
@@ -66,16 +65,14 @@ class Reader {
 
   renderAuthors () {
     return new Promise(async (resolve, reject) => {
-
       this.spinner.show()
       let authors = await this.getAuthors()
       this.spinner.hide()
 
       let date = this.getNextSaturday()
       let names = toOxfordComma(authors.map(author => toTitleCase(author)))
-      let html = `The next delivery is scheduled to be sent on ${date} with a selection of articles by ${names}.`
-      let $element = createElement({ className: 'Info' , html })
-      this.$element.appendChild($element)
+
+      this.$info.innerHTML = `The next delivery is scheduled to be sent on ${date} with a selection of articles by ${names}.`
 
       resolve(true)
     })
@@ -109,7 +106,6 @@ class Reader {
     this.spinner.show()
     return get(ENDPOINTS.generate).then((response) => {
       response.json().then((result) => {
-        console.log(result)
         this.spinner.hide()
       })
     })
@@ -118,7 +114,8 @@ class Reader {
   render () {
     this.$element = createElement({ className: this.className })
 
-    this.$element.appendChild(this.spinner.$element)
+    this.$info = createElement({ className: 'Info'})
+    this.$info.appendChild(this.spinner.$element)
 
     this.renderAuthors().then(() => {
       this.$actions = createElement({ className: 'Actions' })
@@ -126,6 +123,8 @@ class Reader {
       this.renderGenerateButton()
       this.renderViewButton()
     })
+
+    this.$element.appendChild(this.$info)
 
     document.body.appendChild(this.$element)
   }
