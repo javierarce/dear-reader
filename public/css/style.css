@@ -123,10 +123,11 @@ code {
 
 .Info {
   width: 800px;
-  margin: 0 0 2em;
+  margin: 0 0 1em;
   padding: 1em;
   border: 1px solid rgba(94, 63, 38, 0.4);
   border-radius: 4px;
+  background: var(--white);
 }
 
 button {
@@ -148,3 +149,10 @@ button {
   transition: background 100ms ease-in-out, opacity 100ms ease-in-out, color 100ms ease-in-out;
 }
 
+.Actions {
+  display: flex;
+}
+
+.Actions > * {
+  margin: 0 0.4em;
+}

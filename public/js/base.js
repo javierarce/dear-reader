@@ -130,3 +130,11 @@ const timeSince  = (date) => {
   let unit = amount === 1 ? 'second' : 'seconds'
   return `${amount} ${unit} ago`
 }
+
+const toOxfordComma = array =>
+  array.length > 2
+    ? array
+    .slice(0, array.length - 1)
+    .concat(`and ${array.slice(-1)}`)
+    .join(', ')
+    : array.join(', ');

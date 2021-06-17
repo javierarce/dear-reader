@@ -130,6 +130,14 @@ const timeSince  = (date) => {
   let unit = amount === 1 ? 'second' : 'seconds'
   return `${amount} ${unit} ago`
 }
+
+const toOxfordComma = array =>
+  array.length > 2
+    ? array
+    .slice(0, array.length - 1)
+    .concat(`and ${array.slice(-1)}`)
+    .join(', ')
+    : array.join(', ');
 class Spinner {
   constructor () {
     this.className = this.constructor.name
@@ -231,8 +239,8 @@ class Reader {
       this.spinner.hide()
 
       let date = this.getNextSaturday()
-      let names = authors.map(author => toTitleCase(author)).join(', ')
-      let html = `The next delivery is scheduled to be sent on ${date} with a selection of articles from ${names}.`
+      let names = toOxfordComma(authors.map(author => toTitleCase(author)))
+      let html = `The next delivery is scheduled to be sent on ${date} with a selection of articles by ${names}.`
       let $element = createElement({ className: 'Info' , html })
       this.$element.appendChild($element)
 
@@ -240,15 +248,28 @@ class Reader {
     })
   }
 
+  renderViewButton () {
+    this.$viewButton = createElement({ 
+      type: 'button',
+      className: 'Button',
+      text: 'Read book',
+      onclick: () => {
+        alert(1)
+      }
+    })
+
+    this.$actions.appendChild(this.$viewButton)
+  }
+
   renderGenerateButton () {
     this.$generateButton = createElement({ 
       type: 'button',
       className: 'Button',
-      text: 'Generate',
+      text: 'Send book',
       onclick: this.generateBook.bind(this)
     })
 
-    this.$element.appendChild(this.$generateButton)
+    this.$actions.appendChild(this.$generateButton)
   }
 
   generateBook () {
@@ -267,11 +288,10 @@ class Reader {
     this.$element.appendChild(this.spinner.$element)
 
     this.renderAuthors().then(() => {
+      this.$actions = createElement({ className: 'Actions' })
+      this.$element.appendChild(this.$actions)
       this.renderGenerateButton()
-    })
-
-    this.getWeather().then((response) => {
-      console.log(response)
+      this.renderViewButton()
     })
 
     document.body.appendChild(this.$element)
