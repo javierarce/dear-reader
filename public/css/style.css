@@ -144,9 +144,19 @@ button {
   justify-content: center;
   border-radius: 4px;
   user-select: none;
-  color: var(--white);
-  background: var(--black);
+  color: var(--text);
+  background: var(--white);
   transition: background 100ms ease-in-out, opacity 100ms ease-in-out, color 100ms ease-in-out;
+}
+
+.Button.is-primary {
+  background: transparent;
+  color: var(--white);
+  background: var(--text);
+}
+
+.Button.is-secondary {
+  color: var(--text);
 }
 
 .Actions {

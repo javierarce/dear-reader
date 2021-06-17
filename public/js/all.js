@@ -46,7 +46,7 @@ const createElement = ({ className, html, text, type = 'div', ...options }) => {
     $el.innerText = text
   }
 
-  $el.classList.add(className)
+  className.split(' ').forEach(name => $el.classList.add(name))
 
   if (!isEmpty(options)) {
     Object.keys(options).forEach((key) => {
@@ -251,7 +251,7 @@ class Reader {
   renderViewButton () {
     this.$viewButton = createElement({ 
       type: 'button',
-      className: 'Button',
+      className: 'Button is-secondary',
       text: 'Read book',
       onclick: () => {
         alert(1)
@@ -264,7 +264,7 @@ class Reader {
   renderGenerateButton () {
     this.$generateButton = createElement({ 
       type: 'button',
-      className: 'Button',
+      className: 'Button is-primary',
       text: 'Send book',
       onclick: this.generateBook.bind(this)
     })

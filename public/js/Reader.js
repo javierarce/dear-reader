@@ -84,7 +84,7 @@ class Reader {
   renderViewButton () {
     this.$viewButton = createElement({ 
       type: 'button',
-      className: 'Button',
+      className: 'Button is-secondary',
       text: 'Read book',
       onclick: () => {
         alert(1)
@@ -97,7 +97,7 @@ class Reader {
   renderGenerateButton () {
     this.$generateButton = createElement({ 
       type: 'button',
-      className: 'Button',
+      className: 'Button is-primary',
       text: 'Send book',
       onclick: this.generateBook.bind(this)
     })
