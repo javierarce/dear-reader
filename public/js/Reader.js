@@ -2,7 +2,31 @@ class Reader {
   constructor () {
     this.className = this.constructor.name
     this.spinner = new Spinner()
+    this.bind()
     this.render()
+  }
+
+  killEvent (event) {
+    if (event) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+  }
+
+  bind () {
+    document.addEventListener('keydown', this.onKeyDown.bind(this))
+  }
+
+  onKeyDown (event) {
+    if (event.code === 'Space') {
+    } else if (event.code === 'ArrowRight') {
+    } else if (event.code === 'ArrowLeft') {
+    } else if (event.code === 'ArrowDown') {
+    } else if (event.code === 'ArrowUp') {
+    } else if (event.metaKey && event.code === 'KeyA') {
+    } else if (event.code === 'Escape') {
+      this.preview.hide()
+    }
   }
 
   getWeather () {
@@ -23,41 +47,7 @@ class Reader {
     })
   }
 
-  renderEntry (entry) {
-    let $element = createElement({ className: 'Entry' })
-
-    let author = entry.author ? toTitleCase(entry.author) : 'Unknown'
-    let title = `${entry.title } by ${author}`
-    let $title = createElement({ className: 'Entry__title', html: title })
-    let date = timeSince(new Date(entry.published))
-
-    let $summary = createElement({ className: 'Entry__summary', html: entry.summary })
-    let $content = createElement({ className: 'Entry__content', html: entry.content })
-    let $date = createElement({ className: 'Entry__date', html: date })
-
-    $element.appendChild($date)
-    $element.appendChild($title)
-    $element.appendChild($summary)
-    $element.appendChild($content)
-
-    this.$preview.appendChild($element)
-  }
-
-  renderEntries () {
-    return new Promise(async (resolve, reject) => {
-
-      this.spinner.show()
-
-      let entries = await this.getEntries()
-      entries.forEach(this.renderEntry.bind(this))
-
-      this.spinner.hide()
-
-      resolve(true)
-    })
-  }
-
-  getNextSaturday () {
+    getNextSaturday () {
     let dayOfTheWeek = 6
     let date = new Date()
 
@@ -71,21 +61,7 @@ class Reader {
     return `on Saturday, ${MONTHS[date.getMonth()]} ${date.getDate()}`
   }
 
-  renderAuthors () {
-    return new Promise(async (resolve, reject) => {
-      this.spinner.show()
-      let authors = await this.getAuthors()
-      this.spinner.hide()
-
-      let date = this.getNextSaturday()
-      let names = toOxfordComma(authors.map(author => toTitleCase(author)))
-
-      this.$info.innerHTML = `<div class="Info__content">The next delivery is scheduled to be sent <strong>${date}</strong> with a selection of articles by ${names}.</div>`
-      resolve(true)
-    })
-  }
-
-  renderViewButton () {
+  renderPreviewButton () {
     this.$viewButton = createElement({ 
       type: 'button',
       className: 'Button is-secondary',
@@ -99,10 +75,11 @@ class Reader {
   }
 
   showPreview () {
-    this.$preview = createElement({ className: 'Preview'})
-    this.$element.appendChild(this.$preview)
-
-    this.renderEntries()
+    if (!this.preview) {
+      this.preview = new Preview(this.entries)
+    } else {
+      this.preview.show()
+    }
   }
 
   renderGenerateButton () {
@@ -125,17 +102,32 @@ class Reader {
     })
   }
 
+  getAuthorsFromEntries () {
+    return [...new Set(this.entries.map(entry => entry.author))].filter(e => e)
+  }
+
   render () {
     this.$element = createElement({ className: this.className })
 
     this.$info = createElement({ className: 'Info'})
     this.$info.appendChild(this.spinner.$element)
 
-    this.renderAuthors().then(() => {
+    this.spinner.show()
+    this.getEntries().then((entries) => {
+      this.spinner.hide()
+
+      this.entries = entries
+      this.authors = this.getAuthorsFromEntries()
+
+      let date = this.getNextSaturday()
+      let names = toOxfordComma(this.authors.map(author => toTitleCase(author)))
+
+      this.$info.innerHTML = `<div class="Info__content">The next delivery is scheduled to be sent <strong>${date}</strong> with a selection of articles by ${names}.</div>`
+
       this.$actions = createElement({ className: 'Actions' })
       this.$info.appendChild(this.$actions)
       this.renderGenerateButton()
-      this.renderViewButton()
+      this.renderPreviewButton()
     })
 
     this.$element.appendChild(this.$info)

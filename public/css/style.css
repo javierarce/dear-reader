@@ -122,8 +122,8 @@ code {
   position: relative;
   width: 700px;
   border: 1px solid rgba(94, 63, 38, 0.4);
-  border-radius: 4px;
   background: var(--white);
+  box-shadow: 4px 4px 0 rgb(94, 63, 38 , 0.4);
 }
 
 .Info strong {
@@ -162,9 +162,21 @@ button {
   background: transparent;
   color: var(--white);
   background: var(--text);
+  border: none;
+}
+
+.Button.is-primary:hover {
+  background: rgba(94, 63, 38, 0.9);
+  color: var(--white);
+  border: none;
 }
 
 .Button.is-secondary {
+  color: var(--text);
+}
+
+.Button.is-secondary:hover {
+  background: rgba(94, 63, 38, 0.1);
   color: var(--text);
 }
 
@@ -184,23 +196,30 @@ button {
   margin: 0 .4em;
 }
 
+.Preview.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
 
 .Preview {
   position: fixed;
   top: 50%;
   left: 50%;
-  margin-left: -400px;
-  margin-top: -400px;
+  margin-left: -450px;
+  margin-top: -350px;
 
   z-index: 1000;
-  width: 800px;
-  height: 800px;
+  width: 900px;
+  height: 700px;
   overflow: hidden;
   border: 1px solid rgb(94, 63, 38);
   padding: 1em;
-  border-radius: 4px;
   overflow-y: scroll;
   background: var(--white);
+  box-shadow: 4px 4px 0 rgb(94, 63, 38 , 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 250ms ease-in-out;
 }
 
 .Preview a {
