@@ -120,12 +120,23 @@ code {
 
 .Info {
   position: relative;
-  width: 800px;
-  margin: 0 0 1em;
-  padding: 1em;
+  width: 700px;
   border: 1px solid rgba(94, 63, 38, 0.4);
   border-radius: 4px;
   background: var(--white);
+}
+
+.Info strong {
+  font-weight: 600;
+}
+
+.Info__content {
+  padding: 1em;
+  line-height: 145%;
+}
+
+.Info .Spinner {
+  margin: 1em;
 }
 
 button {
@@ -159,8 +170,17 @@ button {
 
 .Actions {
   display: flex;
+  position: relative;
+  width: 100%;
+  padding: 1em .8em;
+  background: rgba(94, 63, 38, 0.1);
+}
+
+.Actions .Button {
+  flex: 1;
 }
 
 .Actions > * {
-  margin: 0 0.4em;
+  margin: 0 .4em;
 }
+

@@ -226,8 +226,14 @@ class Reader {
     let dayOfTheWeek = 6
     let date = new Date()
 
-    date.setDate(date.getDate() + (7 + dayOfTheWeek - date.getDay()) % 7)
-    return `Saturday, ${MONTHS[date.getMonth()]} ${date.getDate()}`
+    let daysLeft = (7 + dayOfTheWeek - date.getDay()) % 7
+    date.setDate(date.getDate() + daysLeft)
+
+    if (daysLeft === 1) {
+      return 'tomorrow'
+    }
+
+    return `on Saturday, ${MONTHS[date.getMonth()]} ${date.getDate()}`
   }
 
   renderAuthors () {
@@ -239,8 +245,7 @@ class Reader {
       let date = this.getNextSaturday()
       let names = toOxfordComma(authors.map(author => toTitleCase(author)))
 
-      this.$info.innerHTML = `The next delivery is scheduled to be sent on ${date} with a selection of articles by ${names}.`
-
+      this.$info.innerHTML = `<div class="Info__content">The next delivery is scheduled to be sent <strong>${date}</strong> with a selection of articles by ${names}.</div>`
       resolve(true)
     })
   }
@@ -249,7 +254,7 @@ class Reader {
     this.$viewButton = createElement({ 
       type: 'button',
       className: 'Button is-secondary',
-      text: 'Read book',
+      text: 'Read preview',
       onclick: () => {
         alert(1)
       }
@@ -286,7 +291,7 @@ class Reader {
 
     this.renderAuthors().then(() => {
       this.$actions = createElement({ className: 'Actions' })
-      this.$element.appendChild(this.$actions)
+      this.$info.appendChild(this.$actions)
       this.renderGenerateButton()
       this.renderViewButton()
     })
