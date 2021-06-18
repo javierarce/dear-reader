@@ -199,13 +199,15 @@ class Reader {
     let date = timeSince(new Date(entry.published))
 
     let $summary = createElement({ className: 'Entry__summary', html: entry.summary })
+    let $content = createElement({ className: 'Entry__content', html: entry.content })
     let $date = createElement({ className: 'Entry__date', html: date })
 
     $element.appendChild($date)
     $element.appendChild($title)
     $element.appendChild($summary)
+    $element.appendChild($content)
 
-    this.$element.appendChild($element)
+    this.$preview.appendChild($element)
   }
 
   renderEntries () {
@@ -256,11 +258,18 @@ class Reader {
       className: 'Button is-secondary',
       text: 'Read preview',
       onclick: () => {
-        alert(1)
+        this.showPreview()
       }
     })
 
     this.$actions.appendChild(this.$viewButton)
+  }
+
+  showPreview () {
+    this.$preview = createElement({ className: 'Preview'})
+    this.$element.appendChild(this.$preview)
+
+    this.renderEntries()
   }
 
   renderGenerateButton () {

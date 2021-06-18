@@ -184,3 +184,58 @@ button {
   margin: 0 .4em;
 }
 
+
+.Preview {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left: -400px;
+  margin-top: -400px;
+
+  z-index: 1000;
+  width: 800px;
+  height: 800px;
+  overflow: hidden;
+  border: 1px solid rgb(94, 63, 38);
+  padding: 1em;
+  border-radius: 4px;
+  overflow-y: scroll;
+  background: var(--white);
+}
+
+.Preview a {
+  text-decoration: underline;
+}
+
+.Preview p {
+  font-size: 1em;
+  line-height: 145%;
+  margin: 0 0 2rem 0;
+}
+
+.Preview em {
+  font-style: italic;
+}
+
+.Preview blockquote { 
+  margin: 0 0 2rem 2rem;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  color: rgb(0, 75, 140);
+} 
+
+.Preview blockquote p { 
+  text-align: left;
+} 
+
+.Preview blockquote ul li:before { 
+  color: var(--body-text-complementary-color);
+} 
+
+.Preview strong,
+.Preview h1,
+.Preview h2,
+.Preview h3  {
+  font-weight: 600;
+}
+
