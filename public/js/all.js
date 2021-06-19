@@ -131,13 +131,9 @@ const timeSince  = (date) => {
   return `${amount} ${unit} ago`
 }
 
-const toOxfordComma = array =>
-  array.length > 2
-    ? array
-    .slice(0, array.length - 1)
-    .concat(`and ${array.slice(-1)}`)
-    .join(', ')
-    : array.join(', ');
+const toOxfordComma = (array) =>  {
+  return array.length >= 2 ? array .slice(0, array.length - 1) .concat(`and ${array.slice(-1)}`) .join(', ') : array.join(', ')
+}
 class Spinner {
   constructor () {
     this.className = this.constructor.name
@@ -384,10 +380,12 @@ class Reader {
     this.authors = this.getAuthorsFromEntries()
     let names = toOxfordComma(this.authors.map(author => toTitleCase(author)))
 
+    let amount = this.entries.length === 1 ? 'one article' : `a selection of ${this.entries.length} articles`
+
     if (!date) {
-      this.$info.innerHTML = `<div class="Info__content">Your book was sent <strong>today</strong> with a selection of articles by ${names}. Happy reading!</div>`
+      this.$info.innerHTML = `<div class="Info__content">Your book was sent <strong>today</strong> with <strong>${amount}</strong> by ${names}. Happy reading!</div>`
     } else {
-      this.$info.innerHTML = `<div class="Info__content">The next delivery is scheduled to be sent <strong>${date}</strong> with a selection of articles by ${names}.</div>`
+      this.$info.innerHTML = `<div class="Info__content">The next delivery is scheduled to be sent <strong>${date}</strong> with <strong>${amount}</strong> by ${names}.</div>`
     }
 
     this.renderActions()
