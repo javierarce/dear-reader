@@ -2,6 +2,7 @@ class Reader {
   constructor () {
     this.className = this.constructor.name
     this.spinner = new Spinner()
+
     this.bind()
     this.render()
   }
@@ -120,9 +121,9 @@ class Reader {
       return
     }
 
-    this.authors = this.getAuthorsFromEntries()
-
     let date = this.getNextSaturday()
+
+    this.authors = this.getAuthorsFromEntries()
     let names = toOxfordComma(this.authors.map(author => toTitleCase(author)))
 
     if (!date) {

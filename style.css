@@ -1,12 +1,22 @@
 h1 { 
-  font-size: 1.3em;
+  font-family:PrimaryFont;
+  text-align: center;
+  font-size: 1.6em;
 } 
+
 h2 { 
-  font-size: 1.1em;
+  font-size: 1.2em;
 } 
+
 h3 { 
-  font-size: .9em;
+  font-size: 0.9em;
 } 
+
+h2, h3, h4, h5, h6 {
+  font-family:PrimaryFont;
+  text-align: left;
+}
+
 p {
   text-indent: 0; 
 } 
@@ -15,8 +25,26 @@ p {
   margin: 0 0 1em 0;
 } 
 
+blockquote {
+  border: none;
+}
+
+.Intro { 
+  text-align: center;
+  margin: 0 auto 1em auto;
+}
+
 .Title { 
   margin-top: 55%;
-  font-size: 2em; 
+  font-size: 1.4em; 
+  text-align: center;
+}
+
+.Title h1 {
+  margin: 0;
+}
+
+.Title h1, 
+.Title h2 {
   text-align: center;
 }
