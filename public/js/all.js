@@ -305,14 +305,16 @@ class Reader {
     })
   }
 
-    getNextSaturday () {
+  getNextSaturday () {
     let dayOfTheWeek = 6
     let date = new Date()
 
     let daysLeft = (7 + dayOfTheWeek - date.getDay()) % 7
     date.setDate(date.getDate() + daysLeft)
 
-    if (daysLeft === 1) {
+    if (daysLeft === 0) {
+      return 'today'
+    } else if (daysLeft === 1) {
       return 'tomorrow'
     }
 
@@ -364,6 +366,24 @@ class Reader {
     return [...new Set(this.entries.map(entry => entry.author))].filter(e => e)
   }
 
+  onGetEntries (entries) {
+    this.spinner.hide()
+
+    this.entries = entries
+    this.authors = this.getAuthorsFromEntries()
+
+    let date = this.getNextSaturday()
+    let names = toOxfordComma(this.authors.map(author => toTitleCase(author)))
+
+    this.$info.innerHTML = `<div class="Info__content">The next delivery is scheduled to be sent <strong>${date}</strong> with a selection of articles by ${names}.</div>`
+
+    this.$actions = createElement({ className: 'Actions' })
+    this.$info.appendChild(this.$actions)
+
+    this.renderGenerateButton()
+    this.renderPreviewButton()
+  }
+
   render () {
     this.$element = createElement({ className: this.className })
 
@@ -371,25 +391,9 @@ class Reader {
     this.$info.appendChild(this.spinner.$element)
 
     this.spinner.show()
-    this.getEntries().then((entries) => {
-      this.spinner.hide()
-
-      this.entries = entries
-      this.authors = this.getAuthorsFromEntries()
-
-      let date = this.getNextSaturday()
-      let names = toOxfordComma(this.authors.map(author => toTitleCase(author)))
-
-      this.$info.innerHTML = `<div class="Info__content">The next delivery is scheduled to be sent <strong>${date}</strong> with a selection of articles by ${names}.</div>`
-
-      this.$actions = createElement({ className: 'Actions' })
-      this.$info.appendChild(this.$actions)
-      this.renderGenerateButton()
-      this.renderPreviewButton()
-    })
+    this.getEntries().then(this.onGetEntries.bind(this))
 
     this.$element.appendChild(this.$info)
-
     document.body.appendChild(this.$element)
   }
 }
