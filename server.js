@@ -76,7 +76,12 @@ app.get('/api/entries', async (request, response) => {
 })
 
 app.get('/api/generate', async (request, response) => {
-  let result = await Reader.generate().catch(e => response.json)
+  let result = await Reader.generate({ deliver: true, mark_as_read: false }).catch(e => response.json)
+  response.json({ result })
+})
+
+app.get('/api/deliver', async (request, response) => {
+  let result = await Reader.generate({ deliver: true, mark_as_read: true }).catch(e => response.json)
   response.json({ result })
 })
 

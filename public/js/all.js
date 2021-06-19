@@ -313,7 +313,7 @@ class Reader {
     date.setDate(date.getDate() + daysLeft)
 
     if (daysLeft === 0) {
-      return 'today'
+      return false
     } else if (daysLeft === 1) {
       return 'tomorrow'
     }
@@ -355,9 +355,11 @@ class Reader {
 
   generateBook () {
     this.spinner.show()
+
     return get(ENDPOINTS.generate).then((response) => {
       response.json().then((result) => {
         this.spinner.hide()
+        console.log('Book generated')
       })
     })
   }
@@ -370,13 +372,27 @@ class Reader {
     this.spinner.hide()
 
     this.entries = entries
+
+    if (entries.length === 0) {
+      this.$info.innerHTML = `<div class="Info__content">There aren't articles to generate a book, enjoy your life.</div>`
+      return
+    }
+
     this.authors = this.getAuthorsFromEntries()
 
     let date = this.getNextSaturday()
     let names = toOxfordComma(this.authors.map(author => toTitleCase(author)))
 
-    this.$info.innerHTML = `<div class="Info__content">The next delivery is scheduled to be sent <strong>${date}</strong> with a selection of articles by ${names}.</div>`
+    if (!date) {
+      this.$info.innerHTML = `<div class="Info__content">Your book was sent <strong>today</strong> with a selection of articles by ${names}. Happy reading!</div>`
+    } else {
+      this.$info.innerHTML = `<div class="Info__content">The next delivery is scheduled to be sent <strong>${date}</strong> with a selection of articles by ${names}.</div>`
+    }
 
+    this.renderActions()
+  }
+
+  renderActions () {
     this.$actions = createElement({ className: 'Actions' })
     this.$info.appendChild(this.$actions)
 
