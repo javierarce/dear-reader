@@ -1,6 +1,6 @@
 class Spinner {
-  constructor () {
-    this.className = this.constructor.name
+  constructor (className = '') {
+    this.className = `${this.constructor.name} ${className}`
     this.visible = false
     this.render()
   }

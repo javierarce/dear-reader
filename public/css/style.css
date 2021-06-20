@@ -110,6 +110,14 @@ code {
   animation: spinner 0.8s infinite linear;
 }
 
+
+.Spinner.is-inside-button {
+  position: absolute;
+  right: 0;
+  width: 20px;
+  height: 20px;
+}
+
 .Spinner.is-visible {
   display: block;
 }
@@ -317,3 +325,5 @@ button {
   background: var(--text);
   border-color: var(--text)
 }
+
+

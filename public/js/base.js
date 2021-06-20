@@ -46,7 +46,7 @@ const createElement = ({ className, html, text, type = 'div', ...options }) => {
     $el.innerText = text
   }
 
-  className.split(' ').forEach(name => $el.classList.add(name))
+  className.split(' ').filter(c => c).forEach(name => $el.classList.add(name))
 
   if (!isEmpty(options)) {
     Object.keys(options).forEach((key) => {

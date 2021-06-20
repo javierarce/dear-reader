@@ -93,16 +93,18 @@ class Reader {
       onclick: this.generateBook.bind(this)
     })
 
+    this.generateSpinner = new Spinner('is-inside-button')
+    this.$generateButton.appendChild(this.generateSpinner.$element)
+
     this.$actions.appendChild(this.$generateButton)
   }
 
-  generateBook () {
-    this.spinner.show()
+  generateBook (element) {
+    this.generateSpinner.show()
 
     return get(ENDPOINTS.generate).then((response) => {
       response.json().then((result) => {
-        this.spinner.hide()
-        console.log('Book generated')
+        this.generateSpinner.hide()
       })
     })
   }

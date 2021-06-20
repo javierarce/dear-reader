@@ -46,7 +46,7 @@ const createElement = ({ className, html, text, type = 'div', ...options }) => {
     $el.innerText = text
   }
 
-  className.split(' ').forEach(name => $el.classList.add(name))
+  className.split(' ').filter(c => c).forEach(name => $el.classList.add(name))
 
   if (!isEmpty(options)) {
     Object.keys(options).forEach((key) => {
@@ -135,8 +135,8 @@ const toOxfordComma = (array) =>  {
   return array.length >= 2 ? array .slice(0, array.length - 1) .concat(`and ${array.slice(-1)}`) .join(', ') : array.join(', ')
 }
 class Spinner {
-  constructor () {
-    this.className = this.constructor.name
+  constructor (className = '') {
+    this.className = `${this.constructor.name} ${className}`
     this.visible = false
     this.render()
   }
@@ -347,16 +347,18 @@ class Reader {
       onclick: this.generateBook.bind(this)
     })
 
+    this.generateSpinner = new Spinner('is-inside-button')
+    this.$generateButton.appendChild(this.generateSpinner.$element)
+
     this.$actions.appendChild(this.$generateButton)
   }
 
-  generateBook () {
-    this.spinner.show()
+  generateBook (element) {
+    this.generateSpinner.show()
 
     return get(ENDPOINTS.generate).then((response) => {
       response.json().then((result) => {
-        this.spinner.hide()
-        console.log('Book generated')
+        this.generateSpinner.hide()
       })
     })
   }
