@@ -95,10 +95,23 @@ code {
   user-select: none;
 }
 
+.Entry__title span {
+  font-weight: normal;
+}
+
 .Entry__date {
   opacity: 0.5;
   font-size: 0.8em;
   user-select: none;
+}
+
+.Entry__content p {
+  margin: 0 0 1em;
+}
+
+.Entry__content ul {
+  margin: 0 0 0 1em;
+  list-style: disc;
 }
 
 .Spinner {
