@@ -51,6 +51,12 @@ app.engine('html', require('ejs').renderFile)
    response.render(__dirname + '/views/index.html', { isLoggedIn, isDevelopment })
  })
 
+ app.get('/config', auth, (request, response) => {
+   const isLoggedIn = request.session.isLoggedIn
+   const isDevelopment = process.env.MODE === 'DEVELOPMENT' ? true : false
+   response.render(__dirname + '/views/index.html', { isLoggedIn, isDevelopment })
+ })
+
 app.get('/login', (request, response) => {
   response.sendFile(__dirname + '/views/login.html')
 })
