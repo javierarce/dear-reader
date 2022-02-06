@@ -48,3 +48,14 @@ blockquote {
 .Title h2 {
   text-align: center;
 }
+
+.Weather {
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  font-size: 0.7em;
+}
