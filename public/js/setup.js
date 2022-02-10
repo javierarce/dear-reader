@@ -7,9 +7,7 @@ const onLoad = () => {
   currentPage = 0
   fields = { pages: [] }
   $form = createElement({ className: 'Form' })
-
-  fields.pages[0] = []
-  fields.pages[1] = []
+  $buttons = createElement({ className: 'Form__actions' })
 
   setupFields()
 
@@ -19,14 +17,42 @@ const onLoad = () => {
 
 const renderForm = () => {
   $form.innerHTML = ''
+  $buttons.innerHTML = ''
+
   showFieldsInPage(currentPage)
 
-  let $next = createElement({ className: 'Button', text: 'Next', type: 'button' })
+  if (fields.pages.length) {
+    if (currentPage >= fields.pages.length - 1) {
+      setupPrevButton()
+    }
 
-  $form.appendChild($next)
+    if (currentPage < fields.pages.length - 1) {
+      setupNextButton()
+    }
+  }
 
-  $next.onclick = () => {
-    currentPage+=1
+  $form.appendChild($buttons)
+}
+
+const setupPrevButton = () => {
+  let $button = createElement({ className: 'Button', text: 'Prev', type: 'button' })
+
+  $buttons.appendChild($button)
+
+  $button.onclick = () => {
+    currentPage -= 1
+    showFieldsInPage(currentPage)
+    renderForm()
+  }
+}
+
+const setupNextButton = () => {
+  let $button = createElement({ className: 'Button', text: 'Next', type: 'button' })
+
+  $buttons.appendChild($button)
+
+  $button.onclick = () => {
+    currentPage += 1
     showFieldsInPage(currentPage)
     renderForm()
   }
@@ -36,10 +62,14 @@ const setupFields = () => {
   let onkeydown = (e) => {
     storage[e.target.name] = e.target.value
   }
+
   fields.pages[0] = [
     { onkeydown, name: 'feedbinUsername', label: 'Username', className: 'Input', type: 'input' },
     { onkeydown, name: 'feedbinPassword', label: 'Password', className: 'Input', type: 'input' },
-    { onkeydown, name: 'kindleEmail', label: 'Kindle email', className: 'Input', type: 'input' },
+    { onkeydown, name: 'kindleEmail', label: 'Kindle email', className: 'Input', type: 'input' }
+  ]
+
+  fields.pages[1] = [
     { onkeydown, name: 'mailerService', label: 'MAILER_SERVICE', className: 'Input',  type: 'input', value: 'gmail' },
     { onkeydown, name: 'mailerEmail', label: 'MAILER_EMAIL', className: 'Input',  type: 'input' },
     { onkeydown, name: 'smtpHostAddr', label: 'SMTP_HOST_ADDR', className: 'Input',  type: 'input', value: 'smtp.gmail.com' },
