@@ -349,7 +349,7 @@ button {
 }
 
 .Form {
-  width: 400px;
+  width: 600px;
 }
 
 .Form__title {
@@ -369,9 +369,14 @@ button {
   bottom: 0;
 }
 
+.Form__description {
+  margin: 0 0 1em;
+}
+
 .Form__actions {
   display: flex;
   justify-content: space-between;
+  margin: 2em 0 0 0;
 }
 
 .Form__actions > * {
@@ -393,6 +398,10 @@ button {
 .InputField__input {
   font-size: .8em;
   padding: 0.8em;
+}
+
+.InputField__input[name='SMTP_HOST_PORT'] {
+  width: 100px;
 }
 
 .Setup__intro {

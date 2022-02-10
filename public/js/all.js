@@ -39,9 +39,16 @@ const isEmpty = (obj) => {
 }
 
 const createInputField  = ({ label, value, className, type = 'div', ...options }) => {
+
+  if (type === 'text') {
+    let $field = createElement({ className: 'Form__description', text: options.text, type: 'p' })
+    return $field
+  }
+
   if (label) {
     label = label.split('_').join(' ')
   }
+
   let $field = createElement({ className: 'InputField', type: 'div' })
   let $label = createElement({ className: 'InputField__label', text: label, type: 'label' })
   let $input = createElement({ className: 'InputField__input', type, value, options })

@@ -39,9 +39,16 @@ const isEmpty = (obj) => {
 }
 
 const createInputField  = ({ label, value, className, type = 'div', ...options }) => {
+
+  if (type === 'text') {
+    let $field = createElement({ className: 'Form__description', text: options.text, type: 'p' })
+    return $field
+  }
+
   if (label) {
     label = label.split('_').join(' ')
   }
+
   let $field = createElement({ className: 'InputField', type: 'div' })
   let $label = createElement({ className: 'InputField__label', text: label, type: 'label' })
   let $input = createElement({ className: 'InputField__input', type, value, options })
@@ -222,7 +229,7 @@ const renderForm = () => {
   showFieldsInPage(currentPage)
 
   if (fields.pages.length) {
-    let showPrevButton = currentPage + 1 >= fields.pages.length - 1
+    let showPrevButton = currentPage > 0
     setupPrevButton(showPrevButton)
 
     let showNextButton = currentPage < fields.pages.length - 1 
@@ -296,6 +303,24 @@ const setupFields = () => {
     { onkeyup, name: 'SMTP_HOST_PORT', label: 'SMTP_HOST_PORT', className: 'Input',  type: 'input', value: 465 },
     { onkeyup, name: 'SMTP_USER_NAME', label: 'SMTP_USER_NAME', className: 'Input',  type: 'input' },
     { onkeyup, name: 'SMTP_USER_PWD', label: 'SMTP_USER_PWD', className: 'Input',  type: 'input' }
+  ]}
+
+  fields.pages[3] = { title: 'Book', fields: [
+    { onkeyup, name: 'BOOK_TITLE', value: 'Dear Reader', label: '', className: 'Input', type: 'input' },
+    { onkeyup, name: 'BOOK_COVER', value: 'cover.png', label: '', className: 'Input', type: 'input' },
+    { onkeyup, name: 'BOOK_SERIES', value: 'Newsletters', label: '', className: 'Input', type: 'input' },
+    { onkeyup, name: 'BOOK_AUTHOR', value: 'Javier Arce', label: '', className: 'Input', type: 'input' },
+    { onkeyup, name: 'BOOK_FILEAS', value: 'Arce, Javier', label: '', className: 'Input', type: 'input' },
+    { onkeyup, name: 'BOOK_GENRE', value: 'Non-Fiction', label: '', className: 'Input', type: 'input' },
+    { onkeyup, name: 'BOOK_TAGS', value: 'newsletters, reading', label: '', className: 'Input', type: 'input' },
+    { onkeyup, name: 'BOOK_COPYRIGHT', value: 'Several authors, 2021', label: '', className: 'Input', type: 'input' },
+    { onkeyup, name: 'BOOK_PUBLISHER', value: 'Dear Reader', label: '', className: 'Input', type: 'input' },
+    { onkeyup, name: 'BOOK_DESCRIPTION', value: 'Newsletters', label: '', className: 'Input', type: 'input' },
+    { onkeyup, name: 'BOOK_CONTENTS', value: 'Table of Contents', label: '', className: 'Input', type: 'input' }
+  ]}
+
+  fields.pages[4] = { title: 'Thanks', fields: [
+    { type: 'text', text: 'Elit explicabo iste id sit eum? Laborum illo quibusdam sint eligendi obcaecati unde Voluptatibus tenetur quos harum rem maxime a dolor rem. Unde molestiae laudantium ad rem in optio debitis'}
   ]}
 
   fields.pages.forEach(page => {
