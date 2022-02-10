@@ -37,10 +37,13 @@ const isEmpty = (obj) => {
   return Object.keys(obj).length === 0;
 }
 
-const createInputField  = ({ label, className, html, text, type = 'div', ...options }) => {
-  let $field = createElement({ className: 'InputField', html, text, type: 'div' })
+const createInputField  = ({ label, value, className, type = 'div', ...options }) => {
+  if (label) {
+    label = label.split('_').join(' ')
+  }
+  let $field = createElement({ className: 'InputField', type: 'div' })
   let $label = createElement({ className: 'InputField__label', text: label, type: 'label' })
-  let $input = createElement({ className: 'InputField__input', type, options })
+  let $input = createElement({ className: 'InputField__input', type, value, options })
 
   $input.type = 'text'
 
@@ -70,7 +73,9 @@ const createElement = ({ className, html, text, type = 'div', ...options }) => {
 
   if (!isEmpty(options)) {
     Object.keys(options).forEach((key) => {
-      $el[key] = options[key]
+      if (options[key]) {
+        $el[key] = options[key] 
+      }
     })
   }
 

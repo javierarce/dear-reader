@@ -37,10 +37,13 @@ const isEmpty = (obj) => {
   return Object.keys(obj).length === 0;
 }
 
-const createInputField  = ({ label, className, html, text, type = 'div', ...options }) => {
-  let $field = createElement({ className: 'InputField', html, text, type: 'div' })
+const createInputField  = ({ label, value, className, type = 'div', ...options }) => {
+  if (label) {
+    label = label.split('_').join(' ')
+  }
+  let $field = createElement({ className: 'InputField', type: 'div' })
   let $label = createElement({ className: 'InputField__label', text: label, type: 'label' })
-  let $input = createElement({ className: 'InputField__input', type, options })
+  let $input = createElement({ className: 'InputField__input', type, value, options })
 
   $input.type = 'text'
 
@@ -70,7 +73,9 @@ const createElement = ({ className, html, text, type = 'div', ...options }) => {
 
   if (!isEmpty(options)) {
     Object.keys(options).forEach((key) => {
-      $el[key] = options[key]
+      if (options[key]) {
+        $el[key] = options[key] 
+      }
     })
   }
 
@@ -222,14 +227,11 @@ const setupFields = () => {
   fields.pages[0] = [
     { onkeydown, name: 'feedbinUsername', label: 'Username', className: 'Input', type: 'input' },
     { onkeydown, name: 'feedbinPassword', label: 'Password', className: 'Input', type: 'input' },
-    { onkeydown, name: 'kindleEmail', label: 'Kindle email', className: 'Input', type: 'input' }
-  ]
-
-  fields.pages[1] = [
-    { onkeydown, name: 'mailerService', label: 'MAILER_SERVICE', className: 'Input',  type: 'input' },
+    { onkeydown, name: 'kindleEmail', label: 'Kindle email', className: 'Input', type: 'input' },
+    { onkeydown, name: 'mailerService', label: 'MAILER_SERVICE', className: 'Input',  type: 'input', value: 'gmail' },
     { onkeydown, name: 'mailerEmail', label: 'MAILER_EMAIL', className: 'Input',  type: 'input' },
-    { onkeydown, name: 'smtpHostAddr', label: 'SMTP_HOST_ADDR', className: 'Input',  type: 'input' },
-    { onkeydown, name: 'smtpHostPort', label: 'SMTP_HOST_PORT', className: 'Input',  type: 'input' },
+    { onkeydown, name: 'smtpHostAddr', label: 'SMTP_HOST_ADDR', className: 'Input',  type: 'input', value: 'smtp.gmail.com' },
+    { onkeydown, name: 'smtpHostPort', label: 'SMTP_HOST_PORT', className: 'Input',  type: 'input', value: 465 },
     { onkeydown, name: 'smtpUserName', label: 'SMTP_USER_NAME', className: 'Input',  type: 'input' },
     { onkeydown, name: 'smtpUserPwd', label: 'SMTP_USER_PWD', className: 'Input',  type: 'input' }
   ]

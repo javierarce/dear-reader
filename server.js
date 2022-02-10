@@ -49,6 +49,13 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'html')
 app.engine('html', require('ejs').renderFile)
 
+app.get('/setup', auth, (request, response) => {
+  const isLoggedIn = request.session && request.session.isLoggedIn
+  const isDevelopment = process.env.MODE === 'DEVELOPMENT' ? true : false
+
+  response.render(__dirname + '/views/setup.html', { isLoggedIn, isDevelopment })
+})
+
  app.get('/', auth, (request, response) => {
    const isLoggedIn = request.session && request.session.isLoggedIn
    const isDevelopment = process.env.MODE === 'DEVELOPMENT' ? true : false

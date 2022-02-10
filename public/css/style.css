@@ -15,6 +15,10 @@ html, body {
   height: 100%;
 }
 
+body.Setup {
+  height: auto;
+}
+
 body {
   font-size: 1.4em;
   line-height: 145%;
@@ -341,6 +345,13 @@ button {
 
 .Form {
   width: 400px;
+}
+
+.Form__actions {
+  display: flex;
+}
+.Form__actions > * {
+  margin: 0 0.4em 0 0;
 }
 
 .InputField {
