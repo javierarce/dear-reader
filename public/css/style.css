@@ -339,4 +339,24 @@ button {
   border-color: var(--text)
 }
 
+.Form {
+  width: 400px;
+}
+
+.InputField {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 1em;
+}
+
+.InputField__label {
+  font-weight: bold;
+  margin: 0 0 0.2em;
+  font-size: 1em;
+}
+
+.InputField__input {
+  font-size: 1em;
+  padding: 0.8em;
+}
 

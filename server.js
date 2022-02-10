@@ -14,19 +14,24 @@ const bodyParser = require('body-parser')
 
 const express = require('express')
 
-const session = require('express-session')({
-  resave: true,
-  saveUninitialized: true,
-  secret: process.env.SECRET,
-  expires: new Date(Date.now() + (30 * 86400 * 1000)),
-  cookie: {
-    secure: false, 
-    httpOnly: false, 
-    maxAge: 1000 * 60 * 10 
-  }
-})
-
 const app = express()
+
+if (process.env.SECRET) {
+  const session = require('express-session')({
+    resave: true,
+    saveUninitialized: true,
+    secret: process.env.SECRET,
+    expires: new Date(Date.now() + (30 * 86400 * 1000)),
+    cookie: {
+      secure: false, 
+      httpOnly: false, 
+      maxAge: 1000 * 60 * 10 
+    }
+  })
+
+  app.use(session)
+}
+
 const http = require('http').createServer(app)
 
 const auth = (request, response, next) => {
@@ -38,7 +43,6 @@ const auth = (request, response, next) => {
   return next()
 }
 
-app.use(session)
 app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -46,8 +50,15 @@ app.set('view engine', 'html')
 app.engine('html', require('ejs').renderFile)
 
  app.get('/', auth, (request, response) => {
-   const isLoggedIn = request.session.isLoggedIn
+   const isLoggedIn = request.session && request.session.isLoggedIn
    const isDevelopment = process.env.MODE === 'DEVELOPMENT' ? true : false
+   const completedSetup = process.env.KINDLE_EMAIL && process.env.FEEDBIN_USERNAME && process.env.FEEDBIN_PASSWORD 
+
+   if (!completedSetup) {
+     response.render(__dirname + '/views/setup.html', { isLoggedIn, isDevelopment })
+     return
+   }
+
    response.render(__dirname + '/views/index.html', { isLoggedIn, isDevelopment })
  })
 
@@ -82,7 +93,9 @@ app.get('/api/entries', async (request, response) => {
 })
 
 app.get('/api/generate', async (request, response) => {
-  let result = await Reader.generate({ deliver: true, mark_as_read: false }).catch(e => response.json)
+  let result = await Reader.generate({ deliver: true, mark_as_read: false }).catch((error) => {
+  response.json({ error })
+  })
   response.json({ result })
 })
 

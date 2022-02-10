@@ -37,6 +37,26 @@ const isEmpty = (obj) => {
   return Object.keys(obj).length === 0;
 }
 
+const createInputField  = ({ label, className, html, text, type = 'div', ...options }) => {
+  let $field = createElement({ className: 'InputField', html, text, type: 'div' })
+  let $label = createElement({ className: 'InputField__label', text: label, type: 'label' })
+  let $input = createElement({ className: 'InputField__input', type, options })
+
+  $input.type = 'text'
+
+  if (options && options.name) {
+    $input.name = options.name
+  }
+  if (options && options.onkeydown) {
+    $input.onkeydown = options.onkeydown
+  }
+
+  $field.appendChild($label)
+  $field.appendChild($input)
+
+  return $field
+}
+
 const createElement = ({ className, html, text, type = 'div', ...options }) => {
   let $el = document.createElement(type)
 
@@ -343,11 +363,17 @@ class Reader {
     this.$generateButton = createElement({ 
       type: 'button',
       className: 'Button is-primary',
-      text: 'Send book',
       onclick: this.generateBook.bind(this)
     })
 
+    this.$generateButtonTitle = createElement({ 
+      type: 'span',
+      text: 'Send book',
+      className: 'Button__title'
+    })
+
     this.generateSpinner = new Spinner('is-inside-button')
+    this.$generateButton.appendChild(this.$generateButtonTitle)
     this.$generateButton.appendChild(this.generateSpinner.$element)
 
     this.$actions.appendChild(this.$generateButton)
@@ -355,10 +381,18 @@ class Reader {
 
   generateBook (element) {
     this.generateSpinner.show()
+    this.$generateButtonTitle.innerText = 'Sending book'
 
     return get(ENDPOINTS.generate).then((response) => {
       response.json().then((result) => {
         this.generateSpinner.hide()
+
+        if (result && result.error) {
+          this.$generateButtonTitle.innerText = 'Error sending :('
+          return
+        }
+
+        this.$generateButtonTitle.innerText = 'Send book'
       })
     })
   }
@@ -387,7 +421,7 @@ class Reader {
     if (!date) {
       this.$info.innerHTML = `<div class="Info__content">Your book was sent <strong>today</strong> with <strong>${amount}</strong> by ${names}. Happy reading!</div>`
     } else {
-      this.$info.innerHTML = `<div class="Info__content">The next delivery is scheduled to be sent <strong>${date}</strong> with <strong>${amount}</strong> by ${names}.</div>`
+      this.$info.innerHTML = `<div class="Info__content">Dear Reader, the next delivery is scheduled to be sent <strong>${date}</strong> with <strong>${amount}</strong> by ${names}.</div>`
     }
 
     this.renderActions()

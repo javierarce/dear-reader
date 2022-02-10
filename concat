@@ -1,1 +1,2 @@
 cat public/js/base.js public/js/Spinner.js public/js/Preview.js public/js/Reader.js  public/js/client.js > public/js/all.js
+cat public/js/base.js public/js/Spinner.js public/js/setup.js > public/js/all.setup.js
