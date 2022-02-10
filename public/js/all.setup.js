@@ -189,6 +189,7 @@ class Spinner {
 }
 let fields
 let $form
+let $spinner
 let currentPage
 let storage = {}
 
@@ -199,6 +200,8 @@ const onLoad = () => {
   $title = createElement({ className: 'Form__title' })
   $buttons = createElement({ className: 'Form__actions' })
   $counter = createElement({ className: 'Form__pages' })
+
+  $spinner = new Spinner('is-inside-button')
 
   setupFields()
   renderForm()
@@ -258,12 +261,15 @@ const setupNextButton = (show) => {
 }
 
 const setupSaveButton = () => {
-  let $button = createElement({ className: 'Button is-primary', text: 'Save', type: 'button' })
+  let $button = createElement({ className: 'Button Button__save is-primary', text: 'Save', type: 'button' })
 
   $buttons.appendChild($button)
+  $button.appendChild($spinner.$element)
 
   $button.onclick = () => {
+    $spinner.show()
     post(ENDPOINTS.setup, storage).then((response) => {
+    $spinner.hide()
       return response.json()
     })
   }

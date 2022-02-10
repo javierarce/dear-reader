@@ -130,7 +130,7 @@ code {
 
 .Spinner.is-inside-button {
   position: absolute;
-  right: 0;
+  right: 1em;
   width: 20px;
   height: 20px;
 }
@@ -178,7 +178,7 @@ code {
   line-height: 145%;
 }
 
-.Info .Spinner {
+.Info > .Spinner {
   margin: 1em;
 }
 
@@ -398,4 +398,8 @@ button {
 .Setup__intro {
   width: 800px;
   margin: 0 0 1em;
+}
+
+.Button__save {
+  flex: 1;
 }
