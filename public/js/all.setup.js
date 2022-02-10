@@ -196,28 +196,34 @@ const onLoad = () => {
   currentPage = 0
   fields = { pages: [] }
   $form = createElement({ className: 'Form' })
+  $title = createElement({ className: 'Form__title' })
   $buttons = createElement({ className: 'Form__actions' })
+  $counter = createElement({ className: 'Form__pages' })
 
   setupFields()
-
   renderForm()
+
   document.body.appendChild($form)
 }
 
 const renderForm = () => {
   $form.innerHTML = ''
   $buttons.innerHTML = ''
+  $counter.innerHTML = `${currentPage + 1}/${fields.pages.length}`
+
+  $title.innerText = fields.pages[currentPage].title
+
+  $form.appendChild($title)
+  $title.appendChild($counter)
 
   showFieldsInPage(currentPage)
 
   if (fields.pages.length) {
-    if (currentPage >= fields.pages.length - 1) {
-      setupPrevButton()
-    }
+    let showPrevButton = currentPage + 1 >= fields.pages.length - 1
+    setupPrevButton(showPrevButton)
 
-    if (currentPage < fields.pages.length - 1) {
-      setupNextButton()
-    }
+    let showNextButton = currentPage < fields.pages.length - 1 
+    setupNextButton(showNextButton)
 
     if (currentPage == fields.pages.length - 1) {
       setupSaveButton()
@@ -227,8 +233,8 @@ const renderForm = () => {
   $form.appendChild($buttons)
 }
 
-const setupPrevButton = () => {
-  let $button = createElement({ className: 'Button', text: 'Prev', type: 'button' })
+const setupPrevButton = (show) => {
+  let $button = createElement({ className: `Button${show ? '': ' is-hidden'}`, text: 'Prev', type: 'button' })
 
   $buttons.appendChild($button)
 
@@ -239,8 +245,8 @@ const setupPrevButton = () => {
   }
 }
 
-const setupNextButton = () => {
-  let $button = createElement({ className: 'Button', text: 'Next', type: 'button' })
+const setupNextButton = (show) => {
+  let $button = createElement({ className: `Button${show ? '': ' is-hidden'}`, text: 'Next', type: 'button' })
 
   $buttons.appendChild($button)
 
@@ -252,7 +258,7 @@ const setupNextButton = () => {
 }
 
 const setupSaveButton = () => {
-  let $button = createElement({ className: 'Button', text: 'Save', type: 'button' })
+  let $button = createElement({ className: 'Button is-primary', text: 'Save', type: 'button' })
 
   $buttons.appendChild($button)
 
@@ -268,23 +274,26 @@ const setupFields = () => {
     storage[e.target.name] = e.target.value
   }
 
-  fields.pages[0] = [
-    { onkeyup, name: 'FEEDBIN_USERNAME', label: 'Username', className: 'Input', type: 'input' },
-    { onkeyup, name: 'FEEDBIN_PASSWORD', label: 'Password', className: 'Input', type: 'input' },
-    { onkeyup, name: 'KINDLE_EMAIL', label: 'Kindle email', className: 'Input', type: 'input' }
-  ]
+  fields.pages[0] = { title: 'Feedbin', fields: [
+    { onkeyup, name: 'FEEDBIN_USERNAME', label: 'FEEDBIN_USERNAME', className: 'Input', type: 'input' },
+    { onkeyup, name: 'FEEDBIN_PASSWORD', label: 'FEEDBIN_PASSWORD', className: 'Input', type: 'input' },
+  ]}
 
-  fields.pages[1] = [
+  fields.pages[1] = { title: 'Kindle', fields: [
+    { onkeyup, name: 'KINDLE_EMAIL', label: 'KINDLE_EMAIL', className: 'Input', type: 'input' }
+  ]}
+
+  fields.pages[2] = { title: 'Email', fields: [
     { onkeyup, name: 'MAILER_SERVICE', label: 'MAILER_SERVICE', className: 'Input',  type: 'input', value: 'gmail' },
     { onkeyup, name: 'MAILER_EMAIL', label: 'MAILER_EMAIL', className: 'Input',  type: 'input' },
     { onkeyup, name: 'SMTP_HOST_ADDR', label: 'SMTP_HOST_ADDR', className: 'Input',  type: 'input', value: 'smtp.gmail.com' },
     { onkeyup, name: 'SMTP_HOST_PORT', label: 'SMTP_HOST_PORT', className: 'Input',  type: 'input', value: 465 },
     { onkeyup, name: 'SMTP_USER_NAME', label: 'SMTP_USER_NAME', className: 'Input',  type: 'input' },
     { onkeyup, name: 'SMTP_USER_PWD', label: 'SMTP_USER_PWD', className: 'Input',  type: 'input' }
-  ]
+  ]}
 
   fields.pages.forEach(page => {
-    page.forEach(options => {
+    page.fields.forEach(options => {
       if (options.value)  {
         storage[options.name] = options.value
       }
@@ -293,7 +302,7 @@ const setupFields = () => {
 }
 
 const showFieldsInPage = (page) => {
-  fields.pages[page].forEach(options => {
+  fields.pages[page].fields.forEach(options => {
 
     if (storage[options.name]) {
       options.value = storage[options.name]

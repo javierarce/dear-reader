@@ -201,6 +201,11 @@ button {
   transition: background 100ms ease-in-out, opacity 100ms ease-in-out, color 100ms ease-in-out;
 }
 
+.Button.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
 .Button.is-primary {
   background: transparent;
   color: var(--white);
@@ -347,8 +352,26 @@ button {
   width: 400px;
 }
 
+.Form__title {
+  position: relative;
+  margin: 0 0 1em;
+  font-size: .8em;
+  font-weight: bold;
+  opacity: 0.5;
+  text-transform: uppercase;
+  padding: 0 0 0.2em;
+  border-bottom: 1px solid rgba(94,63,38, 1);
+}
+
+.Form__pages {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
 .Form__actions {
   display: flex;
+  justify-content: space-between;
 }
 
 .Form__actions > * {
@@ -364,11 +387,15 @@ button {
 .InputField__label {
   font-weight: bold;
   margin: 0 0 0.2em;
-  font-size: 1em;
+  font-size: .8em;
 }
 
 .InputField__input {
-  font-size: 1em;
+  font-size: .8em;
   padding: 0.8em;
 }
 
+.Setup__intro {
+  width: 800px;
+  margin: 0 0 1em;
+}
