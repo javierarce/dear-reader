@@ -3,6 +3,7 @@ const MONTHS = ['January','February','March','April','May','June','July','August
 const DAYSOFWEEK = ['S','M','T','W','TH','F','SA']
 
 const ENDPOINTS = {
+  setup: '/api/setup',
   entries: '/api/entries',
   authors: '/api/authors',
   generate: '/api/generate',
@@ -50,8 +51,8 @@ const createInputField  = ({ label, value, className, type = 'div', ...options }
   if (options && options.name) {
     $input.name = options.name
   }
-  if (options && options.onkeydown) {
-    $input.onkeydown = options.onkeydown
+  if (options && options.onkeyup) {
+    $input.onkeyup = options.onkeyup
   }
 
   $field.appendChild($label)

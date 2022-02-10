@@ -3,6 +3,7 @@ const MONTHS = ['January','February','March','April','May','June','July','August
 const DAYSOFWEEK = ['S','M','T','W','TH','F','SA']
 
 const ENDPOINTS = {
+  setup: '/api/setup',
   entries: '/api/entries',
   authors: '/api/authors',
   generate: '/api/generate',
@@ -50,8 +51,8 @@ const createInputField  = ({ label, value, className, type = 'div', ...options }
   if (options && options.name) {
     $input.name = options.name
   }
-  if (options && options.onkeydown) {
-    $input.onkeydown = options.onkeydown
+  if (options && options.onkeyup) {
+    $input.onkeyup = options.onkeyup
   }
 
   $field.appendChild($label)
@@ -217,6 +218,10 @@ const renderForm = () => {
     if (currentPage < fields.pages.length - 1) {
       setupNextButton()
     }
+
+    if (currentPage == fields.pages.length - 1) {
+      setupSaveButton()
+    }
   }
 
   $form.appendChild($buttons)
@@ -246,29 +251,54 @@ const setupNextButton = () => {
   }
 }
 
+const setupSaveButton = () => {
+  let $button = createElement({ className: 'Button', text: 'Save', type: 'button' })
+
+  $buttons.appendChild($button)
+
+  $button.onclick = () => {
+    post(ENDPOINTS.setup, storage).then((response) => {
+      return response.json()
+    })
+  }
+}
+
 const setupFields = () => {
-  let onkeydown = (e) => {
+  let onkeyup = (e) => {
     storage[e.target.name] = e.target.value
   }
 
   fields.pages[0] = [
-    { onkeydown, name: 'feedbinUsername', label: 'Username', className: 'Input', type: 'input' },
-    { onkeydown, name: 'feedbinPassword', label: 'Password', className: 'Input', type: 'input' },
-    { onkeydown, name: 'kindleEmail', label: 'Kindle email', className: 'Input', type: 'input' }
+    { onkeyup, name: 'FEEDBIN_USERNAME', label: 'Username', className: 'Input', type: 'input' },
+    { onkeyup, name: 'FEEDBIN_PASSWORD', label: 'Password', className: 'Input', type: 'input' },
+    { onkeyup, name: 'KINDLE_EMAIL', label: 'Kindle email', className: 'Input', type: 'input' }
   ]
 
   fields.pages[1] = [
-    { onkeydown, name: 'mailerService', label: 'MAILER_SERVICE', className: 'Input',  type: 'input', value: 'gmail' },
-    { onkeydown, name: 'mailerEmail', label: 'MAILER_EMAIL', className: 'Input',  type: 'input' },
-    { onkeydown, name: 'smtpHostAddr', label: 'SMTP_HOST_ADDR', className: 'Input',  type: 'input', value: 'smtp.gmail.com' },
-    { onkeydown, name: 'smtpHostPort', label: 'SMTP_HOST_PORT', className: 'Input',  type: 'input', value: 465 },
-    { onkeydown, name: 'smtpUserName', label: 'SMTP_USER_NAME', className: 'Input',  type: 'input' },
-    { onkeydown, name: 'smtpUserPwd', label: 'SMTP_USER_PWD', className: 'Input',  type: 'input' }
+    { onkeyup, name: 'MAILER_SERVICE', label: 'MAILER_SERVICE', className: 'Input',  type: 'input', value: 'gmail' },
+    { onkeyup, name: 'MAILER_EMAIL', label: 'MAILER_EMAIL', className: 'Input',  type: 'input' },
+    { onkeyup, name: 'SMTP_HOST_ADDR', label: 'SMTP_HOST_ADDR', className: 'Input',  type: 'input', value: 'smtp.gmail.com' },
+    { onkeyup, name: 'SMTP_HOST_PORT', label: 'SMTP_HOST_PORT', className: 'Input',  type: 'input', value: 465 },
+    { onkeyup, name: 'SMTP_USER_NAME', label: 'SMTP_USER_NAME', className: 'Input',  type: 'input' },
+    { onkeyup, name: 'SMTP_USER_PWD', label: 'SMTP_USER_PWD', className: 'Input',  type: 'input' }
   ]
+
+  fields.pages.forEach(page => {
+    page.forEach(options => {
+      if (options.value)  {
+        storage[options.name] = options.value
+      }
+    })
+  })
 }
 
 const showFieldsInPage = (page) => {
   fields.pages[page].forEach(options => {
+
+    if (storage[options.name]) {
+      options.value = storage[options.name]
+    }
+
     let $field = createInputField(options)
     $form.appendChild($field)
   })

@@ -1,3 +1,4 @@
+.env.sample
 *.epub
 *.png
 book

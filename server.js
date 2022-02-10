@@ -56,24 +56,24 @@ app.get('/setup', auth, (request, response) => {
   response.render(__dirname + '/views/setup.html', { isLoggedIn, isDevelopment })
 })
 
- app.get('/', auth, (request, response) => {
-   const isLoggedIn = request.session && request.session.isLoggedIn
-   const isDevelopment = process.env.MODE === 'DEVELOPMENT' ? true : false
-   const completedSetup = process.env.KINDLE_EMAIL && process.env.FEEDBIN_USERNAME && process.env.FEEDBIN_PASSWORD 
+app.get('/', auth, (request, response) => {
+  const isLoggedIn = request.session && request.session.isLoggedIn
+  const isDevelopment = process.env.MODE === 'DEVELOPMENT' ? true : false
+  const completedSetup = process.env.KINDLE_EMAIL && process.env.FEEDBIN_USERNAME && process.env.FEEDBIN_PASSWORD 
 
-   if (!completedSetup) {
-     response.render(__dirname + '/views/setup.html', { isLoggedIn, isDevelopment })
-     return
-   }
+  if (!completedSetup) {
+    response.render(__dirname + '/views/setup.html', { isLoggedIn, isDevelopment })
+    return
+  }
 
-   response.render(__dirname + '/views/index.html', { isLoggedIn, isDevelopment })
- })
+  response.render(__dirname + '/views/index.html', { isLoggedIn, isDevelopment })
+})
 
- app.get('/config', auth, (request, response) => {
-   const isLoggedIn = request.session.isLoggedIn
-   const isDevelopment = process.env.MODE === 'DEVELOPMENT' ? true : false
-   response.render(__dirname + '/views/index.html', { isLoggedIn, isDevelopment })
- })
+app.get('/config', auth, (request, response) => {
+  const isLoggedIn = request.session.isLoggedIn
+  const isDevelopment = process.env.MODE === 'DEVELOPMENT' ? true : false
+  response.render(__dirname + '/views/index.html', { isLoggedIn, isDevelopment })
+})
 
 app.get('/login', (request, response) => {
   response.sendFile(__dirname + '/views/login.html')
@@ -101,7 +101,7 @@ app.get('/api/entries', async (request, response) => {
 
 app.get('/api/generate', async (request, response) => {
   let result = await Reader.generate({ deliver: true, mark_as_read: false }).catch((error) => {
-  response.json({ error })
+    response.json({ error })
   })
   response.json({ result })
 })
@@ -109,6 +109,20 @@ app.get('/api/generate', async (request, response) => {
 app.get('/api/deliver', async (request, response) => {
   let result = await Reader.generate({ deliver: true, mark_as_read: true }).catch(e => response.json)
   response.json({ result })
+})
+
+app.post('/api/setup', (request, response) => {
+  let data = request.body
+  let content = []
+
+  Object.keys(data).forEach(key => {
+    content.push(`${key}=${data[key]}`)
+  })
+
+  content = content.sort((a, b) => { return a.localeCompare(b)})
+
+  fs.writeFileSync('.env.sample', content.join('\n'))
+  response.json({ ok: true })
 })
 
 app.get('/logout', (request, response) => {
