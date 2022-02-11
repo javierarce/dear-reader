@@ -17,32 +17,7 @@ const express = require('express')
 
 const app = express()
 
-if (process.env.SECRET) {
-  const session = require('express-session')({
-    resave: true,
-    saveUninitialized: true,
-    secret: process.env.SECRET,
-    expires: new Date(Date.now() + (30 * 86400 * 1000)),
-    cookie: {
-      secure: false, 
-      httpOnly: false, 
-      maxAge: 1000 * 60 * 10 
-    }
-  })
-
-  app.use(session)
-}
-
 const http = require('http').createServer(app)
-
-const auth = (request, response, next) => {
-  if (request.session && request.session.user === USER && request.session.password === PASSWORD) {
-    request.session.isLoggedIn = true
-  } else if (request.path.includes('api')) {
-    return response.status(401).json({ error: true })
-  }
-  return next()
-}
 
 app.use(express.static('public'))
 app.use(bodyParser.json())
@@ -50,34 +25,16 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'html')
 app.engine('html', require('ejs').renderFile)
 
-app.get('/setup', auth, (request, response) => {
-  const isLoggedIn = request.session && request.session.isLoggedIn
-  const isDevelopment = process.env.MODE === 'DEVELOPMENT' ? true : false
-
-  response.render(__dirname + '/views/setup.html', { isLoggedIn, isDevelopment })
-})
-
-app.get('/', auth, (request, response) => {
-  const isLoggedIn = request.session && request.session.isLoggedIn
+app.get('/', (request, response) => {
   const isDevelopment = process.env.MODE === 'DEVELOPMENT' ? true : false
   const completedSetup = process.env.KINDLE_EMAIL && process.env.FEEDBIN_USERNAME && process.env.FEEDBIN_PASSWORD 
 
   if (!completedSetup) {
-    response.render(__dirname + '/views/setup.html', { isLoggedIn, isDevelopment })
+    response.render(__dirname + '/views/setup.html', { isDevelopment })
     return
   }
 
-  response.render(__dirname + '/views/index.html', { isLoggedIn, isDevelopment })
-})
-
-app.get('/config', auth, (request, response) => {
-  const isLoggedIn = request.session.isLoggedIn
-  const isDevelopment = process.env.MODE === 'DEVELOPMENT' ? true : false
-  response.render(__dirname + '/views/index.html', { isLoggedIn, isDevelopment })
-})
-
-app.get('/login', (request, response) => {
-  response.sendFile(__dirname + '/views/login.html')
+  response.render(__dirname + '/views/index.html', { isDevelopment })
 })
 
 app.get('/api/weather', async (request, response) => {
@@ -124,17 +81,6 @@ app.post('/api/setup', (request, response) => {
 
   fs.writeFileSync('.env', content.join('\n'))
   response.json({ ok: true })
-})
-
-app.get('/logout', (request, response) => {
-  request.session.destroy()
-})
-
-app.post('/login', (request, response) => {
-  request.session.user = request.body.user
-  request.session.password = request.body.password
-
-  response.redirect('/')
 })
 
 if (process.env.MODE == 'DEVELOPMENT') {
