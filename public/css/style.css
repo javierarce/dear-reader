@@ -120,11 +120,12 @@ code {
 
 .Spinner {
   display: none;
-  border-top: 3px solid var(--gray);
-  border-right: 3px solid var(--gray);
-  border-bottom: 3px solid var(--gray);
+  border-top: 3px solid var(--white);
+  border-right: 3px solid var(--white);
+  border-bottom: 3px solid var(--white);
   border-left: 3px solid var(--text);
   animation: spinner 0.8s infinite linear;
+  position: absolute;
 }
 
 

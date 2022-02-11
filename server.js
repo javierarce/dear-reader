@@ -6,6 +6,7 @@ const { spawn } = require('child_process')
 const fs = require('fs')
 const Reader = require('./lib/Reader')
 
+const PORT = process.env.PORT || 3000
 const USER = process.env.USERNAME
 const PASSWORD = process.env.PASSWORD
 
@@ -113,7 +114,7 @@ app.get('/api/deliver', async (request, response) => {
 
 app.post('/api/setup', (request, response) => {
   let data = request.body
-  let content = []
+  let content = ['PORT=3000']
 
   Object.keys(data).forEach(key => {
     content.push(`${key}=${data[key]}`)
@@ -121,7 +122,7 @@ app.post('/api/setup', (request, response) => {
 
   content = content.sort((a, b) => { return a.localeCompare(b)})
 
-  fs.writeFileSync('.env.sample', content.join('\n'))
+  fs.writeFileSync('.env', content.join('\n'))
   response.json({ ok: true })
 })
 
@@ -145,6 +146,6 @@ if (process.env.MODE == 'DEVELOPMENT') {
   })
 }
 
-http.listen(process.env.PORT, () => {
-  console.log('Your app is listening on port ' + process.env.PORT)
+http.listen(PORT, () => {
+  console.log('Your app is listening on port ' + PORT)
 }) 

@@ -130,6 +130,9 @@ class Reader {
   onGetEntries (entries) {
     this.spinner.hide()
 
+    this.$info = createElement({ className: 'Info'})
+    this.$element.appendChild(this.$info)
+
     this.entries = entries
 
     if (entries.length === 0) {
@@ -164,13 +167,11 @@ class Reader {
   render () {
     this.$element = createElement({ className: this.className })
 
-    this.$info = createElement({ className: 'Info'})
-    this.$info.appendChild(this.spinner.$element)
-
-    this.spinner.show()
     this.getEntries().then(this.onGetEntries.bind(this))
 
-    this.$element.appendChild(this.$info)
+    this.$element.appendChild(this.spinner.$element)
     document.body.appendChild(this.$element)
+
+    this.spinner.show()
   }
 }

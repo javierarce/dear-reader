@@ -268,7 +268,7 @@ const setupNextButton = (show) => {
 }
 
 const setupSaveButton = () => {
-  let $button = createElement({ className: 'Button Button__save is-primary', text: 'Save', type: 'button' })
+  let $button = createElement({ className: 'Button Button__save is-primary', text: 'Generate .env file', type: 'button' })
 
   $buttons.appendChild($button)
   $button.appendChild($spinner.$element)
@@ -290,6 +290,7 @@ const setupFields = () => {
   fields.pages[0] = { title: 'Feedbin', fields: [
     { onkeyup, name: 'FEEDBIN_USERNAME', label: 'FEEDBIN_USERNAME', className: 'Input', type: 'input' },
     { onkeyup, name: 'FEEDBIN_PASSWORD', label: 'FEEDBIN_PASSWORD', className: 'Input', type: 'input' },
+    { onkeyup, name: 'FEEDBIN_TAGNAME', label: 'FEEDBIN_TAGNAME', className: 'Input', type: 'input', value: 'Newsletters'}
   ]}
 
   fields.pages[1] = { title: 'Kindle', fields: [
@@ -319,7 +320,14 @@ const setupFields = () => {
     { onkeyup, name: 'BOOK_CONTENTS', value: 'Table of Contents', label: '', className: 'Input', type: 'input' }
   ]}
 
-  fields.pages[4] = { title: 'Thanks', fields: [
+  fields.pages[4] = { title: 'OpenWeather (optional)', fields: [
+    { onkeyup, name: 'OPEN_WEATHER_API_KEY', label: 'OPEN_WEATHER_API_KEY', className: 'Input',  type: 'input' },
+    { onkeyup, name: 'OPEN_WEATHER_LANG', label: 'OPEN_WEATHER_LANG', className: 'Input',  type: 'input', value: 'en' },
+    { onkeyup, name: 'OPEN_WEATHER_CITY', label: 'OPEN_WEATHER_CITY', className: 'Input',  type: 'input' },
+    { onkeyup, name: 'OPEN_WEATHER_UNITS', label: 'OPEN_WEATHER_UNITS', className: 'Input',  type: 'input', value: 'metric' }
+  ]}
+
+  fields.pages[5] = { title: 'Thanks', fields: [
     { type: 'text', text: 'Elit explicabo iste id sit eum? Laborum illo quibusdam sint eligendi obcaecati unde Voluptatibus tenetur quos harum rem maxime a dolor rem. Unde molestiae laudantium ad rem in optio debitis'}
   ]}
 
