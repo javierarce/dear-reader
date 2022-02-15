@@ -19,6 +19,7 @@ class Preview {
     let $element = createElement({ className: 'Entry' })
 
     let author = entry.author ? toTitleCase(entry.author) : 'Unknown'
+
     let title = `${entry.title } <span>by</span> ${author}`
     let $title = createElement({ className: 'Entry__title', html: title })
     let date = timeSince(new Date(entry.published))

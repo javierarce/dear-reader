@@ -4,6 +4,7 @@ const DAYSOFWEEK = ['S','M','T','W','TH','F','SA']
 
 const ENDPOINTS = {
   setup: '/api/setup',
+  steps: '/api/steps',
   entries: '/api/entries',
   authors: '/api/authors',
   generate: '/api/generate',
@@ -58,8 +59,8 @@ const createInputField  = ({ label, value, className, type = 'div', ...options }
   if (options && options.name) {
     $input.name = options.name
   }
-  if (options && options.onkeyup) {
-    $input.onkeyup = options.onkeyup
+  if (options && options.event && options.eventName) {
+    $input[options.eventName] = options.event
   }
 
   $field.appendChild($label)
@@ -215,6 +216,7 @@ class Preview {
     let $element = createElement({ className: 'Entry' })
 
     let author = entry.author ? toTitleCase(entry.author) : 'Unknown'
+
     let title = `${entry.title } <span>by</span> ${author}`
     let $title = createElement({ className: 'Entry__title', html: title })
     let date = timeSince(new Date(entry.published))
@@ -423,19 +425,21 @@ class Reader {
     this.entries = entries
 
     if (entries.length === 0) {
-      this.$info.innerHTML = `<div class="Info__content">There aren't articles to generate a book, enjoy your life.</div>`
+      this.$info.innerHTML = `<div class="Info__content">Dear Reader, there aren't new articles to generate a book, enjoy your life.</div>`
       return
     }
 
     let date = this.getNextSaturday()
 
     this.authors = this.getAuthorsFromEntries()
-    let names = toOxfordComma(this.authors.map(author => toTitleCase(author)))
+
+    let authors = this.authors.map(author => author !== 'Unknown' && toTitleCase(author)).filter(Boolean)
+    let names = toOxfordComma(authors)
 
     let amount = this.entries.length === 1 ? 'one article' : `a selection of ${this.entries.length} articles`
 
     if (!date) {
-      this.$info.innerHTML = `<div class="Info__content">Your book was sent <strong>today</strong> with <strong>${amount}</strong> by ${names}. Happy reading!</div>`
+      this.$info.innerHTML = `<div class="Info__content">Dear Reader, your book was sent <strong>today</strong> with <strong>${amount}</strong> by ${names}.</div>`
     } else {
       this.$info.innerHTML = `<div class="Info__content">Dear Reader, the next delivery is scheduled to be sent <strong>${date}</strong> with <strong>${amount}</strong> by ${names}.</div>`
     }

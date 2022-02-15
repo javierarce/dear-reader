@@ -19,6 +19,8 @@ const app = express()
 
 const http = require('http').createServer(app)
 
+const steps = require('./installation.json')
+
 app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -26,7 +28,7 @@ app.set('view engine', 'html')
 app.engine('html', require('ejs').renderFile)
 
 app.get('/', (request, response) => {
-  const isDevelopment = process.env.MODE === 'DEVELOPMENT' ? true : false
+  const isDevelopment = process.env.MODE !== 'PRODUCTION' ? true : false
   const completedSetup = process.env.KINDLE_EMAIL && process.env.FEEDBIN_USERNAME && process.env.FEEDBIN_PASSWORD 
 
   if (!completedSetup) {
@@ -69,9 +71,13 @@ app.get('/api/deliver', async (request, response) => {
   response.json({ result })
 })
 
+app.get('/api/steps', async (request, response) => {
+  response.json(steps)
+})
+
 app.post('/api/setup', (request, response) => {
   let data = request.body
-  let content = ['PORT=3000']
+  let content = ['PORT=3000', 'MAIL_ENABLED=true', 'MODE=DEVELOPMENT']
 
   Object.keys(data).forEach(key => {
     content.push(`${key}=${data[key]}`)
@@ -83,7 +89,7 @@ app.post('/api/setup', (request, response) => {
   response.json({ ok: true })
 })
 
-if (process.env.MODE == 'DEVELOPMENT') {
+if (process.env.MODE != 'PRODUCTION') {
   fs.watch('./public/js/', (eventType, filename) => {
     if (filename !== 'all.js') {
       console.log(`${eventType}: ${filename}`)

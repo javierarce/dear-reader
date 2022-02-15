@@ -4,6 +4,7 @@ const DAYSOFWEEK = ['S','M','T','W','TH','F','SA']
 
 const ENDPOINTS = {
   setup: '/api/setup',
+  steps: '/api/steps',
   entries: '/api/entries',
   authors: '/api/authors',
   generate: '/api/generate',
@@ -58,8 +59,8 @@ const createInputField  = ({ label, value, className, type = 'div', ...options }
   if (options && options.name) {
     $input.name = options.name
   }
-  if (options && options.onkeyup) {
-    $input.onkeyup = options.onkeyup
+  if (options && options.event && options.eventName) {
+    $input[options.eventName] = options.event
   }
 
   $field.appendChild($label)
