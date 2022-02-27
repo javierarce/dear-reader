@@ -364,6 +364,19 @@ button {
   border-bottom: 1px solid rgba(94,63,38, 1);
 }
 
+.Form__description {
+  position: relative;
+  margin: 0 0 1em;
+  font-size: .8em;
+  line-height: 145%;
+}
+
+.Form__description a {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+
 .Form__pages {
   position: absolute;
   right: 0;
@@ -394,6 +407,17 @@ button {
   font-weight: bold;
   margin: 0 0 0.2em;
   font-size: .8em;
+}
+
+.InputField__help {
+  margin: 0.4em 0 0;
+  font-size: 0.7em;
+  line-height: 145%;
+}
+
+.InputField__help a {
+  color: var(--text);
+  text-decoration: underline;
 }
 
 .InputField__input {

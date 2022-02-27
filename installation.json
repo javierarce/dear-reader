@@ -1,10 +1,20 @@
 {
 "steps": [
   { 
-    "title": "Feedbin", "fields": [
+    "title": "Feedbin",
+    "description": "Lorem laudantium nemo porro sit facilis? Unde non magni aperiam beatae temporibus reiciendis earum Dolorum consequuntur soluta adipisci nihil molestiae At voluptatem eaque ducimus magni excepturi. <a href=\"#\">Minus maiores</a> alias distinctio?",
+    "fields": [
       { "event":"onkeyup", "name": "FEEDBIN_USERNAME", "label": "FEEDBIN_USERNAME", "className": "Input", "type": "input" },
       { "event":"onkeyup", "name": "FEEDBIN_PASSWORD", "label": "FEEDBIN_PASSWORD", "className": "Input", "type": "input" },
-      { "event":"onkeyup", "name": "FEEDBIN_TAGNAME", "label": "FEEDBIN_TAGNAME", "className": "Input", "type": "input", "value": "Newsletters"}
+      { 
+        "event":"onkeyup",
+        "name": "FEEDBIN_TAGNAME",
+        "label": "FEEDBIN_TAGNAME",
+        "className": "Input",
+        "type": "input",
+        "value": "Newsletters",
+        "help": "Lorem laudantium nemo porro sit facilis? Unde non magni aperiam beatae temporibus reiciendis earum Dolorum consequuntur soluta adipisci nihil molestiae At voluptatem eaque ducimus magni excepturi. <a href=\"#\">Minus maiores</a> alias distinctio?"
+      }
     ]
   }
   , { 

@@ -1,0 +1,96 @@
+:root {
+  --black: #111;
+  --blue: #2477BE;
+  --gray: #F4F4F4;
+  --green: #0E6100;
+  --red: #F44336;
+  --white: #FFFFFF;
+  --yellow: #FFEB3B;
+  --background: #fef6f0;
+  --text: hsl(26deg 42% 26%);
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body.Setup {
+  height: auto;
+}
+
+body {
+  font-size: 1.4em;
+  line-height: 145%;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  margin: 0;
+  padding: 0;
+  color: var(--text);
+  background: var(--background);
+}
+
+
+.Content {
+  position: relative;
+  height: 100%;
+}
+
+.Content:before {
+  content: "";
+  position: absolute;
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  height: 100%;  
+  background-size: 100%;
+  background-image: url(/img/background.svg);
+  z-index: 10;
+}
+
+.Instructions {
+  position: absolute;
+  top: 48px;
+  right: 64px;
+  color: var(--green);
+  font-size: 0.9em;
+}
+
+.Header {
+  position: relative;
+  top: 110px;
+  margin: auto;
+  text-align: center;
+  z-index: 100;
+}
+
+.Header__title {
+  width: 853px;
+  height: 107px;
+  margin: 0 auto .8em auto;
+  background-image: url(/img/title.svg);
+  background-repeat: no-repeat;
+  background-size: 80%;
+  background-position: center;
+}
+
+.Header__description {
+  font-size: 0.9em;
+}
+
+.Kindle {
+  position: fixed;
+  width: 1000px;
+  height: 676px;
+  margin-left: -500px;
+  left: 50%;
+  bottom: -40px;
+  background-image: url(/img/kindle.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  z-index: 100;
+}

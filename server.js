@@ -39,6 +39,11 @@ app.get('/', (request, response) => {
   response.render(__dirname + '/views/index.html', { isDevelopment })
 })
 
+app.get('/home', (request, response) => {
+  const isDevelopment = process.env.MODE !== 'PRODUCTION' ? true : false
+  response.render(__dirname + '/views/home.html', { isDevelopment })
+})
+
 app.get('/api/weather', async (request, response) => {
   let result = await Reader.getWeather().catch(e => response.json)
   response.json(result)

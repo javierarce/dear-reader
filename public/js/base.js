@@ -59,12 +59,19 @@ const createInputField  = ({ label, value, className, type = 'div', ...options }
   if (options && options.name) {
     $input.name = options.name
   }
+
   if (options && options.event && options.eventName) {
     $input[options.eventName] = options.event
   }
 
   $field.appendChild($label)
   $field.appendChild($input)
+
+  if (options && options.help) {
+    let $help = createElement({ className: 'InputField__help', html: options.help })
+    $field.appendChild($help)
+  }
+
 
   return $field
 }

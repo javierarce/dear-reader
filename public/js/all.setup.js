@@ -59,12 +59,19 @@ const createInputField  = ({ label, value, className, type = 'div', ...options }
   if (options && options.name) {
     $input.name = options.name
   }
+
   if (options && options.event && options.eventName) {
     $input[options.eventName] = options.event
   }
 
   $field.appendChild($label)
   $field.appendChild($input)
+
+  if (options && options.help) {
+    let $help = createElement({ className: 'InputField__help', html: options.help })
+    $field.appendChild($help)
+  }
+
 
   return $field
 }
@@ -224,14 +231,20 @@ const onLoad = () => {
 }
 
 const renderForm = () => {
+  let page = steps[currentPage]
   $form.innerHTML = ''
   $buttons.innerHTML = ''
   $counter.innerHTML = `${currentPage + 1}/${steps.length}`
 
-  $title.innerText = steps[currentPage].title
+  $title.innerText = page.title
 
   $form.appendChild($title)
   $title.appendChild($counter)
+
+  if (page && page.description) {
+    let $description = createElement({ className: 'Form__description', html: page.description })
+    $form.appendChild($description)
+  }
 
   showFieldsInPage(currentPage)
 
