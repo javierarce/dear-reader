@@ -49,12 +49,11 @@ const createInputField  = ({ label, value, className, type = 'div', ...options }
   if (label) {
     label = label.split('_').join(' ')
   }
-
   let $field = createElement({ className: 'InputField', type: 'div' })
   let $label = createElement({ className: 'InputField__label', text: label, type: 'label' })
-  let $input = createElement({ className: 'InputField__input', type, value, options })
+  let $input = createElement({ className: 'InputField__input', type, value, placeholder: options.placeholder, autocomplete: options.autocomplete })
 
-  $input.type = 'text'
+  $input.type = options.kind || 'text'
 
   if (options && options.name) {
     $input.name = options.name

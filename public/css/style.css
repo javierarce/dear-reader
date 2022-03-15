@@ -8,6 +8,7 @@
   --yellow: #FFEB3B;
   --background: #fef6f0;
   --text: hsl(26deg 42% 26%);
+  --hover: hsl(26deg 42% 26% / 10%);
 }
 
 html, body {
@@ -15,7 +16,7 @@ html, body {
   height: 100%;
 }
 
-body.Setup {
+body.is-setup {
   height: auto;
 }
 
@@ -201,6 +202,9 @@ button {
   background: var(--white);
   transition: background 100ms ease-in-out, opacity 100ms ease-in-out, color 100ms ease-in-out;
 }
+.Button:hover {
+  background: var(--hover);
+}
 
 .Button.is-hidden {
   opacity: 0;
@@ -349,8 +353,22 @@ button {
   border-color: var(--text)
 }
 
-.Form {
+.Setup {
+  position: relative;
   width: 600px;
+  border: 1px solid var(--text);
+  padding: 1em;
+  border-radius: 4px;
+  color: var(--text);
+  background: var(--white);
+}
+
+.Setup__intro {
+  margin: 0 0 1em;
+}
+
+.Form {
+  width: 100%;
 }
 
 .Form__title {
@@ -381,6 +399,8 @@ button {
   position: absolute;
   right: 0;
   bottom: 0;
+  font-weight: 500;
+  font-size: 0.9em;
 }
 
 .Form__description {
@@ -423,15 +443,22 @@ button {
 .InputField__input {
   font-size: .8em;
   padding: 0.8em;
+  border: 1px solid var(--text);
+  border-radius: 2px;
+  transition: box-shadow 80ms ease-in-out;
+}
+
+.InputField__input:hover {
+  border: 1px solid var(--text);
+  box-shadow: 0px 0px 0px 3px var(--hover);
+}
+
+.InputField__input:focus-visible {
+  outline: 3px solid var(--hover);
 }
 
 .InputField__input[name='SMTP_HOST_PORT'] {
   width: 100px;
-}
-
-.Setup__intro {
-  width: 800px;
-  margin: 0 0 1em;
 }
 
 .Button__save {

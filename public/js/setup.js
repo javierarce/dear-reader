@@ -14,7 +14,7 @@ const EVENTS = {
 
 const onLoad = () => {
   currentPage = 0
-  $form = createElement({ className: 'Form' })
+  $form = createElement({ className: 'Form', autocomplete: 'off' })
   $title = createElement({ className: 'Form__title' })
   $buttons = createElement({ className: 'Form__actions' })
   $counter = createElement({ className: 'Form__pages' })
@@ -23,7 +23,8 @@ const onLoad = () => {
 
   setupFields()
 
-  document.body.appendChild($form)
+  let $setup = document.body.querySelector('.js-setup')
+  $setup.appendChild($form)
 }
 
 const renderForm = () => {
@@ -65,9 +66,19 @@ const setupPrevButton = (show) => {
   $buttons.appendChild($button)
 
   $button.onclick = () => {
+    storeFieldForPage(currentPage)
     currentPage -= 1
     renderForm()
   }
+}
+
+const storeFieldForPage = (page) => {
+  steps[page].fields.forEach(options => {
+    let input = document.getElementsByName(options.name)[0]
+    if (input) {
+      storage[options.name] = input.value
+    }
+  })
 }
 
 const setupNextButton = (show) => {
@@ -76,7 +87,9 @@ const setupNextButton = (show) => {
   $buttons.appendChild($button)
 
   $button.onclick = () => {
+    storeFieldForPage(currentPage)
     currentPage += 1
+
     renderForm()
   }
 }
