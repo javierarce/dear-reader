@@ -7,8 +7,6 @@ const fs = require('fs')
 const Reader = require('./lib/Reader')
 
 const PORT = process.env.PORT || 3000
-const USER = process.env.USERNAME
-const PASSWORD = process.env.PASSWORD
 
 const path = require('path')
 const bodyParser = require('body-parser')
@@ -82,7 +80,7 @@ app.get('/api/steps', async (request, response) => {
 
 app.post('/api/setup', (request, response) => {
   let data = request.body
-  let content = ['PORT=3000', 'MAIL_ENABLED=true', 'MODE=DEVELOPMENT']
+  let content = ['PORT=3000', 'MAIL_ENABLED=true', 'MODE=DEVELOPMENT', 'BOOK_COVER=cover.png', 'BOOK_GENRE=Fiction', 'BOOK_CONTENTS=Table of Contents']
 
   Object.keys(data).forEach(key => {
     content.push(`${key}=${data[key]}`)
