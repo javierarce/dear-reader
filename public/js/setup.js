@@ -95,7 +95,8 @@ const setupNextButton = (show) => {
 }
 
 const setupSaveButton = () => {
-  let $button = createElement({ className: 'Button Button__save is-primary', text: 'Generate .env file', type: 'button' })
+  let defaultText = 'Generate .env file'
+  let $button = createElement({ className: 'Button Button__save is-primary', text: defaultText, type: 'button' })
 
   $buttons.appendChild($button)
   $button.appendChild($spinner.$element)
@@ -103,8 +104,14 @@ const setupSaveButton = () => {
   $button.onclick = () => {
     $spinner.show()
     post(ENDPOINTS.setup, storage).then((response) => {
-    $spinner.hide()
-      return response.json()
+      $spinner.hide()
+      
+      if (response.status === 200) {
+        $button.innerHTML = 'Oh, wow, .env file generated!'
+        setTimeout(() => {
+          $button.innerHTML = defaultText
+        }, 800)
+      }
     })
   }
 }
